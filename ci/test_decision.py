@@ -22,7 +22,7 @@ class Space:
         subprocess.run(["git", "init", "-q", str(self.root)], check=True)
 
     def cli(self, *args):
-        env = {**os.environ, "HOME": str(self.home), "PROJECTOPS_HOME": str(self.home / ".projectops"),
+        env = {**os.environ, "HOME": str(self.home), "USERPROFILE": str(self.home), "PROJECTOPS_HOME": str(self.home / ".projectops"),
                "PYTHONIOENCODING": "utf-8"}
         out = subprocess.run([sys.executable, str(CLI), *args, "--root", str(self.root)],
                              capture_output=True, text=True, encoding="utf-8", env=env, timeout=30)

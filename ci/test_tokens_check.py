@@ -20,7 +20,7 @@ class Space:
         subprocess.run(["git", "init", "-q", str(self.root)], check=True)
 
     def cli(self, *args):
-        env = {**os.environ, "HOME": str(self.home), "PROJECTOPS_HOME": str(self.home / ".projectops"),
+        env = {**os.environ, "HOME": str(self.home), "USERPROFILE": str(self.home), "PROJECTOPS_HOME": str(self.home / ".projectops"),
                "PYTHONIOENCODING": "utf-8"}
         out = subprocess.run([sys.executable, str(CLI), *args, "--root", str(self.root)],
                              capture_output=True, text=True, encoding="utf-8", env=env, timeout=30)
@@ -107,7 +107,7 @@ def test_start_reports_no_profile_then_saved_profile(space):
     assert saved["saved"]["readme_created"] is True
     readme = Path(saved["saved"]["readme"])
     assert readme.is_file() and "## Summary" in readme.read_text()
-    assert "/launch/" in str(readme) and "/harness/ui-design/" in str(readme)
+    assert "/launch/" in readme.as_posix() and "/harness/ui-design/" in readme.as_posix()
     readme.write_text("# ui-design\n\n## Summary\nUse AppColors only.\n")
     again = space.cli("tokens", "--save")
     assert again["saved"]["readme_created"] is False and "AppColors" in readme.read_text()

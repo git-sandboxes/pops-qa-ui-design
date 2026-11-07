@@ -23,7 +23,7 @@ def github_repo(tmp_path):
 
 
 def run_cli(home, *args):
-    env = {**os.environ, "HOME": str(home), "PYTHONIOENCODING": "utf-8"}
+    env = {**os.environ, "HOME": str(home), "USERPROFILE": str(home), "PYTHONIOENCODING": "utf-8"}
     result = subprocess.run([sys.executable, str(CLI), *args], capture_output=True, text=True, encoding="utf-8", env=env)
     return json.loads(result.stdout)
 

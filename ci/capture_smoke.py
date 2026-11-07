@@ -2,6 +2,7 @@
 import json, os, subprocess, sys, tempfile
 from pathlib import Path
 from PIL import Image
+sys.stdout.reconfigure(encoding="utf-8")
 repo = Path(os.environ["REPO_ROOT"])
 cli_path = repo / "skills/pro-ui-design/scripts/ui_design_cli.py"
 root = Path(tempfile.mkdtemp(prefix="smoke 한글 "))
