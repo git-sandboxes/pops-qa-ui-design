@@ -1,0 +1,23 @@
+{
+  "id": "general-cred-never-read-config",
+  "area": "general",
+  "title": "Never read credentials straight from the config file",
+  "match": {
+    "codes": [],
+    "keywords": [
+      "config.json",
+      "password"
+    ]
+  },
+  "symptom": "To pass a password to a raw tool (maestro, etc.), the agent reads config.json and writes a temporary file",
+  "cause": "Saved values used through --cred are masked and never recorded. Reading them directly leaves plain text in files, command lines and the conversation",
+  "fix": [
+    "Use app type --cred <name> --cred-field <field> / web type --cred",
+    "Use cred references in app run steps too",
+    "If plain text was already left behind, delete the file and suggest the user change the password"
+  ],
+  "refs": [
+    934
+  ],
+  "verified_at": "2026-10-18"
+}

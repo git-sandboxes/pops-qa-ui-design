@@ -1,0 +1,29 @@
+{
+  "id": "ios-maestro-session-reconnect",
+  "area": "ios",
+  "title": "The resident session dropped — another maestro test attached to the same device",
+  "match": {
+    "codes": [
+      "session_start_failed"
+    ],
+    "keywords": [
+      "Device became unreachable",
+      "session_fallback",
+      "device_unreachable"
+    ]
+  },
+  "symptom": "After app session start, a fast tree · tap once takes about 9 s (session_reconnected: true), or falls back to per-call launches with session_fallback: device_unreachable",
+  "cause": "While a maestro mcp session is attached, another maestro test on the same simulator (including app type and other sessions' tests) breaks the session's driver connection — 'Failed to run flow: Device became unreachable during deviceInfo' (measured on Maestro 2.10.0). The relay restarts maestro mcp and reattaches on the next call",
+  "fix": [
+    "One slow call is normal — keep going",
+    "If device_unreachable persists, check whether another session is running maestro on the same device (ps -ax | grep maestro)",
+    "launch_cli.py app session stop --device <UDID>, then start again"
+  ],
+  "refs": [
+    894
+  ],
+  "verified_at": "2026-10-17",
+  "see_also": [
+    "ios-maestro-slow-cold-start"
+  ]
+}

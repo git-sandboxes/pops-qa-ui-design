@@ -1,0 +1,24 @@
+{
+  "id": "web-playwright-or-browser-missing",
+  "area": "web",
+  "title": "playwright_missing · browser_missing — web setup is needed",
+  "match": {
+    "codes": [
+      "playwright_missing",
+      "browser_missing"
+    ],
+    "keywords": []
+  },
+  "symptom": "web open ends with playwright_missing (no Playwright) or browser_missing (Chromium is not installed)",
+  "cause": "Web control uses Playwright and a browser in a dedicated virtual environment (under ~/.projectops). It is not set up yet, or the package exists but the browser files are missing",
+  "fix": [
+    "Ask the user before installing (about 100 MB): launch_cli.py web setup",
+    "On an internal network, use an installed Chrome · Edge: prefix web open with LAUNCH_CHROMIUM_PATH=<browser executable path>",
+    "If web setup fails with pip_failed, install playwright pillow from the internal PyPI mirror first (ask the user first)"
+  ],
+  "refs": [
+    857,
+    889
+  ],
+  "verified_at": "2026-10-17"
+}

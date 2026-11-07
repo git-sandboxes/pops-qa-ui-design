@@ -1,0 +1,26 @@
+{
+  "id": "ios-app-vanishes-after-launch",
+  "area": "ios",
+  "title": "iOS app vanishes right after launch, and app shot captures the home screen",
+  "match": {
+    "codes": [
+      "app_exited"
+    ],
+    "keywords": [
+      "SIGABRT",
+      "crash"
+    ]
+  },
+  "symptom": "app launch returns ok, but the app is not visible and shot shows the home screen",
+  "cause": "The app crashes right after launch (e.g. Secrets.xcconfig is missing in the worktree, causing GADInvalidInitializationException)",
+  "fix": [
+    "Read crash_report and the exception line in the launch_cli.py app launch response",
+    "If absent, open the latest Runner-*.ips in ~/Library/Logs/DiagnosticReports",
+    "See console errors with xcrun simctl launch --console-pty <UDID> <bundle>",
+    "Check that local config files (Secrets.xcconfig, etc.) were copied into the worktree"
+  ],
+  "refs": [
+    923
+  ],
+  "verified_at": "2026-10-18"
+}

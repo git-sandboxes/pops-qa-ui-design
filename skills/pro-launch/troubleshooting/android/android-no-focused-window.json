@@ -1,0 +1,24 @@
+{
+  "id": "android-no-focused-window",
+  "area": "android",
+  "title": "no_focused_window — no focused window, screen structure unreadable (null root)",
+  "match": {
+    "codes": [
+      "no_focused_window"
+    ],
+    "keywords": [
+      "null root node returned by UiTestAutomationBridge"
+    ]
+  },
+  "symptom": "app tree · app tap --text · waits in app run fail, and uiautomator dump prints 'ERROR: null root node returned by UiTestAutomationBridge.'. The home screen seems to be showing",
+  "cause": "Android has no window with focus (mCurrentFocus=null in dumpsys window). Happens right after a reboot, with the screen off, locked, or mid-transition (measured: 5 times in a row after an emulator soft reboot)",
+  "fix": [
+    "The CLI already wakes the screen (WAKEUP · unlock) and reads up to three times before returning this code. Call app tree once more after a few seconds",
+    "Look at the current screen with app shot. If it is a password lock screen, ask the user to unlock it",
+    "If it persists, check with adb -s <serial> shell dumpsys window | grep mCurrentFocus whether a focused window appeared"
+  ],
+  "refs": [
+    894
+  ],
+  "verified_at": "2026-10-17"
+}

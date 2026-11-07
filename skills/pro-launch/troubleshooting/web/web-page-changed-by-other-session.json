@@ -1,0 +1,27 @@
+{
+  "id": "web-page-changed-by-other-session",
+  "area": "web",
+  "title": "Another session moves the same tab and your input is lost",
+  "match": {
+    "codes": [
+      "page_changed_by_other_session",
+      "tab_gone"
+    ],
+    "keywords": [
+      "tab_warning",
+      "LAUNCH_TAB"
+    ]
+  },
+  "symptom": "web results carry tab_warning (page_changed_by_other_session), or the page you were on changed to an unrelated site",
+  "cause": "Several sessions share the same repo's browser, and every unnamed session drives the same default tab",
+  "fix": [
+    "launch_cli.py web tab new --name <name> --url <url>",
+    "Prefix every web command in this session with LAUNCH_TAB=<name>",
+    "On tab_gone, recreate it with web tab new --name <same name>",
+    "Save long input after each step"
+  ],
+  "refs": [
+    878
+  ],
+  "verified_at": "2026-10-17"
+}

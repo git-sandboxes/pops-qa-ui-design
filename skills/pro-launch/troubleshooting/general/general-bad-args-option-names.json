@@ -1,0 +1,25 @@
+{
+  "id": "general-bad-args-option-names",
+  "area": "general",
+  "title": "bad_args — wrong option name (--full-page · --field · positional argument)",
+  "match": {
+    "codes": [
+      "bad_args"
+    ],
+    "keywords": [
+      "인자가 올바르지 않습니다"
+    ]
+  },
+  "symptom": "The command ends with bad_args (\"Invalid arguments: unrecognized arguments …\")",
+  "cause": "You passed an option or positional argument that does not exist. Common mistakes: web shot takes --full (not --full-page), the credential field is --cred-field (not --field), cred show takes --name <name> (not positional), cred actions are only list · show · set · unset · import-ssh (no add)",
+  "fix": [
+    "Read the unrecognized arguments · invalid choice part of error first",
+    "launch_cli.py web --help",
+    "launch_cli.py cred show --name <name>",
+    "If the response has load_errors, a module is broken and its subcommand is hidden — check the plugin version"
+  ],
+  "refs": [
+    889
+  ],
+  "verified_at": "2026-10-17"
+}

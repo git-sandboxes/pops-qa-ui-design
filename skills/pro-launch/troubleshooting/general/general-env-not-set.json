@@ -1,0 +1,25 @@
+{
+  "id": "general-env-not-set",
+  "area": "general",
+  "title": "--text-env returns env_not_set — pass the variable name, not the value",
+  "match": {
+    "codes": [
+      "env_not_set"
+    ],
+    "keywords": [
+      "환경변수 비어"
+    ]
+  },
+  "symptom": "web type · app type end with env_not_set (\"Environment variable … is empty\")",
+  "cause": "--text-env takes an environment variable name. No variable with that name is in the launch_cli process environment: the value itself was passed, or it was set in another Bash call and is gone (Bash resets on every call)",
+  "fix": [
+    "Prefix it on the same command line: CODE=<value> launch_cli.py web type --selector <box> --text-env CODE",
+    "The command line stays in the session record — pass only values that may stay there this way, such as one-time codes",
+    "For a saved login, do not handle the value; use --cred <name> (the value never reaches the command line or records)"
+  ],
+  "refs": [
+    604,
+    889
+  ],
+  "verified_at": "2026-10-17"
+}

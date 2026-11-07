@@ -1,0 +1,24 @@
+{
+  "id": "ios-maestro-log-keeps-input-text",
+  "area": "ios",
+  "title": "Maestro's record (maestro.log) keeps the real inputText value in plain text",
+  "match": {
+    "codes": [],
+    "keywords": [
+      "maestro.log",
+      "evaluatedCommand",
+      "InputTextCommand"
+    ]
+  },
+  "symptom": "~/.maestro/tests/<timestamp>/maestro.log contains InputTextCommand(text=<real value>), even though it was passed as an environment variable (${...})",
+  "cause": "maestro test records each command with environment variables expanded (evaluatedCommand). The default record location is ~/.maestro/tests, so it stays after the run ends (measured on Maestro 2.10.0)",
+  "fix": [
+    "pro-launch's app type and type steps send the record to a temp folder (--debug-output <temp folder> --flatten-debug-output) and delete it; use the same options when you call maestro test yourself",
+    "If records already remain, tell the user and ask whether to delete them (do not delete them on your own)"
+  ],
+  "refs": [
+    894,
+    895
+  ],
+  "verified_at": "2026-10-17"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "ssh-windows-cmd-encoding",
+  "area": "ssh",
+  "title": "Output from a Windows cmd (CP949) host is garbled",
+  "match": {
+    "codes": [],
+    "keywords": [
+      "UnicodeDecodeError",
+      "chcp"
+    ]
+  },
+  "symptom": "The ssh response has garbled characters, or older versions fail with UnicodeDecodeError",
+  "cause": "Windows cmd outputs in CP949",
+  "fix": [
+    "Newer versions decode UTF-8 > CP949 in that order (check stdout_encoding)",
+    "On older versions, prefix the command with 'chcp 65001 >nul &'"
+  ],
+  "refs": [
+    933
+  ],
+  "verified_at": "2026-10-18"
+}

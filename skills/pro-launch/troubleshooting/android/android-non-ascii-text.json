@@ -1,0 +1,22 @@
+{
+  "id": "android-non-ascii-text",
+  "area": "android",
+  "title": "Android app type returns non_ascii_unsupported — adb cannot type Korean",
+  "match": {
+    "codes": [
+      "non_ascii_unsupported"
+    ],
+    "keywords": []
+  },
+  "symptom": "On Android, typing Korean text with app type ends with non_ascii_unsupported",
+  "cause": "Android input uses adb input text, which accepts ASCII only",
+  "fix": [
+    "If an English or numeric value works instead, use it",
+    "If Korean text is required, ask the user before installing an IME such as ADBKeyboard",
+    "Otherwise, ask the user to type it themselves"
+  ],
+  "refs": [
+    889
+  ],
+  "verified_at": "2026-10-17"
+}

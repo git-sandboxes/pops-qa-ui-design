@@ -1,0 +1,24 @@
+{
+  "id": "android-maps-locale",
+  "area": "android",
+  "title": "Google Maps labels do not follow the app language",
+  "match": {
+    "codes": [],
+    "keywords": [
+      "locale",
+      "Maps"
+    ]
+  },
+  "symptom": "You changed the Flutter app language, but the map labels stay the same",
+  "cause": "Map labels follow the Activity locale. Right after a system language change, GMS caches the locale",
+  "fix": [
+    "launch_cli.py device locale --device <id> --lang ja --region JP --app <package>",
+    "Directly: adb shell cmd locale set-app-locales <pkg> --locales ja-JP (verify with get-app-locales)",
+    "If tiles are blank, restart the app and Play services",
+    "When done, revert with --restore"
+  ],
+  "refs": [
+    929
+  ],
+  "verified_at": "2026-10-18"
+}

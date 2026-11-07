@@ -1,0 +1,28 @@
+{
+  "id": "web-orphan-headless-chrome",
+  "area": "web",
+  "title": "Double-clicking an HTML file does not open Chrome — orphan headless Chrome",
+  "match": {
+    "codes": [
+      "browser_hung"
+    ],
+    "keywords": [
+      "headless",
+      "chrome"
+    ]
+  },
+  "symptom": "A double-clicked html file shows nothing, or web open hangs",
+  "cause": "A headless Chrome whose profile is gone (PPID 1) is left running and receives the default Chrome requests",
+  "fix": [
+    "Clean up orphans with launch_cli.py web close --stale (other people's live browsers are only reported)",
+    "By hand: in ps -axo pid,ppid,command | grep -- --headless, look for entries with PPID 1",
+    "If reconnecting hangs, open with a new absolute --root, keeping in mind the login will be gone"
+  ],
+  "refs": [
+    921
+  ],
+  "verified_at": "2026-10-18",
+  "see_also": [
+    "browser-start-stale-process-or-lock"
+  ]
+}

@@ -1,0 +1,37 @@
+name: ui-design check
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ui-design-check
+  cancel-in-progress: true
+jobs:
+  check:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -q pytest pillow playwright && python -m playwright install --with-deps chromium
+      - run: |
+          git config --global user.email t@example.com
+          git config --global user.name t
+      - name: Tests
+        env:
+          REPO_ROOT: ${{ github.workspace }}
+        run: cd ci && python -m pytest test_config.py test_server.py test_tokens_check.py test_decision.py test_review.py -q -p no:cacheprovider --basetemp "$RUNNER_TEMP/한글 경로" 2>&1 | tail -60
+        continue-on-error: true
+      - name: Capture smoke
+        env:
+          REPO_ROOT: ${{ github.workspace }}
+        run: python ci/capture_smoke.py

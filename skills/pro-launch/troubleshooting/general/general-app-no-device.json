@@ -1,0 +1,23 @@
+{
+  "id": "general-app-no-device",
+  "area": "general",
+  "title": "app command returns no_device — several devices attached or simulator not booted",
+  "match": {
+    "codes": [
+      "no_device"
+    ],
+    "keywords": []
+  },
+  "symptom": "app shot · tap · type end with no_device. The response lists android · ios_booted devices",
+  "cause": "No --device and no $DEV, and the number of attached devices is not exactly one (with several, it stops rather than capture the wrong device). Or the UDID given with --device is not a booted simulator (the list shows only Booted)",
+  "fix": [
+    "Pick one from android · ios_booted in the response and call again with --device <serial or UDID>",
+    "Bind a role to pin it as $DEV in env.sh: launch_cli.py device bind --role <role> --serial <serial>",
+    "If the list is empty, boot first: emulator -avd <AVD name> or xcrun simctl boot <UDID>"
+  ],
+  "refs": [
+    583,
+    889
+  ],
+  "verified_at": "2026-10-17"
+}

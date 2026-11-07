@@ -1,0 +1,32 @@
+<h2>How should the sheet rise?</h2>
+<p class="subtitle">Press Play, or slow it down from the toolbar.</p>
+<style>
+  .sheet{position:absolute;left:0;right:0;bottom:0;height:60%;background:var(--ui-surface-2);border-radius:20px 20px 0 0;transform:translateY(100%);padding:14px}
+  .field{background:var(--ui-surface);border-radius:10px;padding:10px;margin-bottom:8px}
+</style>
+<div class="ui-options" id="options"></div>
+<script>
+  const OPTIONS = [
+    { id: "a", name: "A. Smooth", play(card) {
+      return UIDesign.animate(card.querySelector(".sheet"), [{ transform: "translateY(100%)" }, { transform: "translateY(0)" }],
+        { duration: 320, easing: "cubic-bezier(.2,.8,.2,1)", fill: "forwards" }); } },
+    { id: "b", name: "B. Spring", play(card) {
+      const sheet = card.querySelector(".sheet");
+      return UIDesign.spring((position) => { sheet.style.transform = `translateY(${(1 - position) * 100}%)`; }, { dampingRatio: 0.45, frequency: 15 }); } },
+    { id: "c", name: "C. Staggered", play(card) {
+      UIDesign.animate(card.querySelector(".sheet"), [{ transform: "translateY(100%)" }, { transform: "translateY(0)" }], { duration: 260, easing: "ease-out", fill: "forwards" });
+      card.querySelectorAll(".field").forEach((field, index) => UIDesign.animate(field, [{ opacity: 0 }, { opacity: 1 }], { duration: 200, delay: 150 + index * 70, fill: "both" })); } },
+  ];
+  for (const option of OPTIONS) {
+    const card = document.createElement("div");
+    card.className = "ui-option";
+    card.dataset.option = option.id;
+    card.innerHTML = `<h3>${option.name}</h3><div class="ui-device"><div class="ui-device-screen"><div class="sheet"><div class="field">Title</div><div class="field">Due</div></div></div></div>
+      <div class="ui-option-actions"><button data-play="${option.id}">Play</button><button data-choice="${option.id}">Pick</button></div>`;
+    document.getElementById("options").append(card);
+    UIDesign.registerOption(option.id, {
+      play: () => option.play(card),
+      reset: () => { card.querySelector(".sheet").style.transform = "translateY(100%)"; },
+    });
+  }
+</script>

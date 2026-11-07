@@ -1,0 +1,23 @@
+{
+  "id": "general-plugin-cache-version-drift",
+  "area": "general",
+  "title": "Scripts called from a different plugin cache version path each session",
+  "match": {
+    "codes": [],
+    "keywords": [
+      "plugins/cache",
+      "projectops-marketplace"
+    ]
+  },
+  "symptom": "The agent calls ~/.claude/plugins/cache/…/projectops/<version>/skills/pro-launch/scripts directly. The docs read and the script run differ in version, so an option is missing (bad_args) or behavior differs from the docs",
+  "cause": "The plugin cache keeps several version folders. A version path copied from a past session or memory may not be the current one. 'Find the scripts' in SKILL.md picks the highest version with sort -V | tail -1",
+  "fix": [
+    "At session start, rerun the 'Find the scripts' block in SKILL.md to get SCRIPTS — do not paste an old version path",
+    "Read the docs from the same version folder too (references/ above SCRIPTS)",
+    "Within a session, write the path you got as a literal value (Bash loses variables on every call)"
+  ],
+  "refs": [
+    889
+  ],
+  "verified_at": "2026-10-17"
+}

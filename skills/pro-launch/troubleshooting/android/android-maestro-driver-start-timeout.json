@@ -1,0 +1,24 @@
+{
+  "id": "android-maestro-driver-start-timeout",
+  "area": "android",
+  "title": "maestro_driver_timeout — Maestro Android driver did not start in time",
+  "match": {
+    "codes": [
+      "maestro_driver_timeout"
+    ],
+    "keywords": [
+      "did not start up in time"
+    ]
+  },
+  "symptom": "app flow (or a direct maestro test) stops with 'Maestro Android driver did not start up in time'. The same flow works at other times",
+  "cause": "Emulator or host overload kept the on-device driver apps (dev.mobile.maestro, dev.mobile.maestro.test) from responding in time (reported 3 times, during builds)",
+  "fix": [
+    "app flow already force-stops the driver apps and retries once before returning this code. Do not repeat the same command right away",
+    "Check whether heavy work such as a build (gradle · xcodebuild) is running, and retry after it ends",
+    "If it persists, ask the user about an emulator cold boot (emulator -avd <name> -no-snapshot-load)"
+  ],
+  "refs": [
+    862
+  ],
+  "verified_at": "2026-10-17"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "web-find-nothing-found",
+  "area": "web",
+  "title": "web find returns nothing_found — by default it finds only clickable elements",
+  "match": {
+    "codes": [
+      "nothing_found"
+    ],
+    "keywords": []
+  },
+  "symptom": "The text is visible on screen, but web find returns nothing_found (no visible element matches)",
+  "cause": "Without --selector · --role it looks only at click targets such as links, buttons and elements with a role. Plain inputs (input · textarea) are not included. --role finds only elements with an actual role attribute (--role textbox does not find <input>). It does not look inside iframes either",
+  "fix": [
+    "launch_cli.py web text --max-chars 3000",
+    "launch_cli.py web find --text <text exactly as seen in web text>",
+    "Find inputs with CSS: launch_cli.py web find --selector input",
+    "If still nothing, it may be inside an iframe — kb show web-iframe-login-fields"
+  ],
+  "refs": [
+    825,
+    889
+  ],
+  "verified_at": "2026-10-17",
+  "see_also": [
+    "web-iframe-login-fields"
+  ]
+}

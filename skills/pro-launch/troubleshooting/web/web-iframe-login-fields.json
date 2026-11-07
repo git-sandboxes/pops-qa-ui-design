@@ -1,0 +1,25 @@
+{
+  "id": "web-iframe-login-fields",
+  "area": "web",
+  "title": "Cannot find login fields inside an iframe (App Store Connect, etc.)",
+  "match": {
+    "codes": [],
+    "keywords": [
+      "iframe",
+      "enter-frame"
+    ]
+  },
+  "symptom": "The login fields are visible, but web find cannot find them and web type · click --selector end with a timeout or assert_failed. Writing 'iframe >> input' does not match either",
+  "cause": "The login form is inside an iframe (App Store Connect login, etc.). web find scans only the top-level document. --selector on type · click · text · assert is a Playwright selector, so it needs the step that enters the iframe (internal:control=enter-frame) to reach it",
+  "fix": [
+    "launch_cli.py web type --selector \"iframe >> internal:control=enter-frame >> input#account_name_text_field\" --cred <name> --cred-field account",
+    "launch_cli.py web click --selector \"iframe >> internal:control=enter-frame >> #sign-in\" --expect-text <text shown after login>",
+    "With several iframes, narrow the first step to iframe#<id>. web find does not look inside iframes, so pick field names from a web shot",
+    "In a read-only (--readonly) session the login button may be blocked too — tell the user and add --confirm-mutating"
+  ],
+  "refs": [
+    889
+  ],
+  "verified_at": "2026-10-17",
+  "applies_to": "web (Playwright selectors)"
+}

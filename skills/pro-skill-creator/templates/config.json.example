@@ -1,0 +1,21 @@
+{
+  "_comment": "Standard skill config template. Keep per-user values (accounts, tokens, paths) in this file; do not hard-code them in the SKILL.md body.",
+  "service": {
+    "url": "https://service.example.com",
+    "token": "",
+    "user": "",
+    "password": "",
+    "verify_ssl": true
+  },
+  "ssh": {
+    "host": "",
+    "user": "",
+    "pem_path": ""
+  },
+  "projects": {
+    "project-key": {
+      "path": "namespace/repo-name",
+      "aliases": ["short-name", "korean-alias"]
+    }
+  }
+}

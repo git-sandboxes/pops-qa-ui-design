@@ -1,0 +1,27 @@
+<h2>Sender and receiver</h2>
+<div id="stage"></div>
+<script>
+  const store = UIDesign.createStore({ sent: [], menuOpen: false, dragDistance: 0 });
+  const steps = UIDesign.showSteps(["Press Send", "Long press the tile", "Drag the tile"], { title: "Try this" });
+
+  UIDesign.setScreens([
+    { id: "sender", label: "Sender", render(element, state) {
+      element.innerHTML = `<div style="padding:40px 16px"><button id="send">Send</button>
+        <div id="tile" style="margin-top:16px;padding:14px;background:var(--ui-surface-2);border-radius:12px;touch-action:none">Tile</div>
+        <div id="menu" style="display:${state.menuOpen ? "block" : "none"}">Menu</div>
+        <div>Dragged <span id="drag-distance">${state.dragDistance}</span></div></div>`;
+      element.querySelector("#send").onclick = () => {
+        store.set((current) => ({ sent: [...current.sent, "Morning routine"] }));
+        UIDesign.toast("Sent");
+        steps.complete(0);
+      };
+      const tile = element.querySelector("#tile");
+      UIDesign.onLongPress(tile, () => { store.set({ menuOpen: true }); steps.complete(1); });
+      UIDesign.onDrag(tile, { end({ distance }) { store.set({ dragDistance: Math.round(distance) }); steps.complete(2); } });
+    } },
+    { id: "receiver", label: "Receiver", render(element, state) {
+      element.innerHTML = `<div style="padding:40px 16px">${state.sent.length
+        ? state.sent.map((name) => `<div>${name}</div>`).join("") : "Nothing sent yet"}</div>`;
+    } },
+  ], store, document.getElementById("stage"));
+</script>

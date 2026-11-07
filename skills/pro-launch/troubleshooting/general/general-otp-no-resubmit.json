@@ -1,0 +1,25 @@
+{
+  "id": "general-otp-no-resubmit",
+  "area": "general",
+  "title": "Do not resubmit the login form while waiting for a verification code",
+  "match": {
+    "codes": [],
+    "keywords": [
+      "Invalid OTP",
+      "인증 코드",
+      "verification code"
+    ]
+  },
+  "symptom": "The user sent the code, but entering it shows Invalid OTP",
+  "cause": "Resubmitting the login sends a new code and invalidates the previous one",
+  "fix": [
+    "Do not resubmit the form while waiting for the code",
+    "First check with web text that the OTP screen is showing",
+    "If you already resubmitted, ask the user for the new code"
+  ],
+  "refs": [
+    881,
+    934
+  ],
+  "verified_at": "2026-10-18"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "ios-maestro-driver-port-conflict",
+  "area": "ios",
+  "title": "iOS tree finds 0 elements with several simulators — driver port 22087 conflict",
+  "match": {
+    "codes": [
+      "ui_dump_failed"
+    ],
+    "keywords": [
+      "22087",
+      "count 0",
+      "Address already in use"
+    ]
+  },
+  "symptom": "With two or more simulators booted, app tree · tap return ui_dump_failed (count 0), or read another simulator's screen elements",
+  "cause": "The Maestro iOS driver (XCTest runner) always uses host port 22087. If a driver for another simulator (including other sessions) holds that port, this device's driver cannot start or attaches to the wrong device",
+  "fix": [
+    "Find the process holding the port with lsof -nP -iTCP:22087 -sTCP:LISTEN, and check which UDID's driver it is with ps -p <PID> -o command=",
+    "If another session's driver holds it, do not kill it — wait for that work to finish or ask the user (Maestro drives one simulator at a time)",
+    "If pro-launch left the driver behind, clean it up with launch_cli.py app session stop --device <that UDID> --kill-stale",
+    "Then check that launch_cli.py app tree --device <UDID> reads elements; to keep driving, run app session start --device <UDID>"
+  ],
+  "refs": [
+    973
+  ],
+  "verified_at": "2026-10-21",
+  "see_also": [
+    "ios-maestro-stale-driver-or-overload",
+    "ios-maestro-session-reconnect"
+  ]
+}

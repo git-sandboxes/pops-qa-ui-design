@@ -1,0 +1,23 @@
+{
+  "id": "ios-status-bar-custom-time",
+  "area": "ios",
+  "title": "iOS capture status bar time must match the notification time",
+  "match": {
+    "codes": [],
+    "keywords": [
+      "status_bar",
+      "상태바",
+      "status bar"
+    ]
+  },
+  "symptom": "Store captures need a status bar time other than 9:41",
+  "cause": "app shot --clean-status fixes the time at 9:41 by default. Set any other time directly with simctl status_bar",
+  "fix": [
+    "launch_cli.py app shot --clean-status --time 7:42",
+    "By hand: xcrun simctl status_bar <UDID> override --time 7:42, capture, then restore with status_bar clear"
+  ],
+  "refs": [
+    928
+  ],
+  "verified_at": "2026-10-18"
+}

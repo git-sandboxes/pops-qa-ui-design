@@ -1,0 +1,28 @@
+{
+  "id": "general-root-unknown-skill-folder",
+  "area": "general",
+  "title": "Captures and state pile up in the wrong place, e.g. ~/.projectops/launch/scripts",
+  "match": {
+    "codes": [],
+    "keywords": [
+      "root_unknown",
+      "root_warning"
+    ]
+  },
+  "symptom": "Captures land in ~/.projectops/launch/scripts/shots or a shared location instead of the project. Responses carry root_unknown · root_warning. Browsers and memory opened earlier are not visible",
+  "cause": "It was called with --root . (or without --root) after cd into the scripts folder. The state and capture location comes from the git remote of --root. A plugin cache maps to this computer's shared location, not a project (older versions split by the folder name scripts)",
+  "fix": [
+    "Call the script by absolute path from the project folder and add --root <project path>",
+    "Or prefix PROJECT_ROOT=<project path> (used when called from a scripts or cache folder)",
+    "Get the capture location first: launch_cli.py get-output-path --root <project path> --title <title>, then source env.sh"
+  ],
+  "refs": [
+    833,
+    836,
+    889
+  ],
+  "verified_at": "2026-10-17",
+  "see_also": [
+    "web-browser-not-open-other-root"
+  ]
+}

@@ -1,0 +1,1230 @@
+{
+  "schema": 1,
+  "codes": {
+    "adb_missing": [
+      "android-adb-missing"
+    ],
+    "android_system_not_ready": [
+      "android-system-restart-loop"
+    ],
+    "android_tool_missing": [
+      "android-adb-missing"
+    ],
+    "app_exited": [
+      "ios-app-vanishes-after-launch"
+    ],
+    "bad_args": [
+      "general-bad-args-option-names"
+    ],
+    "bad_viewport": [
+      "web-viewport-width-height"
+    ],
+    "browser_gone": [
+      "web-browser-gone"
+    ],
+    "browser_hung": [
+      "browser-start-stale-process-or-lock",
+      "web-orphan-headless-chrome"
+    ],
+    "browser_memory_exceeded": [
+      "web-script-browser-memory-exceeded"
+    ],
+    "browser_missing": [
+      "web-playwright-or-browser-missing"
+    ],
+    "browser_not_open": [
+      "web-browser-not-open-other-root"
+    ],
+    "browser_start_failed": [
+      "browser-start-stale-process-or-lock"
+    ],
+    "cred_field_missing": [
+      "general-cred-field-missing"
+    ],
+    "device_unresponsive": [
+      "android-emulator-unresponsive-host-swap"
+    ],
+    "element_disabled": [
+      "web-selector-guess-timeout"
+    ],
+    "element_not_actionable": [
+      "web-selector-guess-timeout"
+    ],
+    "env_not_set": [
+      "general-env-not-set"
+    ],
+    "expect_not_met": [
+      "web-click-wait-with-expect"
+    ],
+    "goto_failed": [
+      "web-goto-failed"
+    ],
+    "ios_tool_missing": [
+      "ios-maestro-not-installed"
+    ],
+    "maestro_driver_timeout": [
+      "android-maestro-driver-start-timeout"
+    ],
+    "mutating_blocked": [
+      "desktop-apple-2fa-code-window",
+      "web-readonly-mutating-blocked"
+    ],
+    "no_device": [
+      "general-app-no-device"
+    ],
+    "no_focused_window": [
+      "android-no-focused-window"
+    ],
+    "non_ascii_unsupported": [
+      "android-non-ascii-text"
+    ],
+    "not_foreground": [
+      "android-app-not-foreground"
+    ],
+    "not_found": [
+      "android-flutter-doubled-desc",
+      "desktop-browser-page-not-in-tree",
+      "ios-label-in-desc-doubled"
+    ],
+    "nothing_found": [
+      "web-find-nothing-found"
+    ],
+    "page_changed_by_other_session": [
+      "web-page-changed-by-other-session"
+    ],
+    "permission_missing": [
+      "desktop-macos-permission-terminal"
+    ],
+    "playwright_missing": [
+      "web-playwright-or-browser-missing"
+    ],
+    "ref_stale": [
+      "desktop-notification-banner-expires",
+      "desktop-window-listed-but-content-elsewhere"
+    ],
+    "render_failed": [
+      "general-render-failed-first-error"
+    ],
+    "selector_not_found": [
+      "web-selector-guess-timeout"
+    ],
+    "session_start_failed": [
+      "ios-maestro-session-reconnect",
+      "ios-maestro-stale-driver-or-overload"
+    ],
+    "sshpass_missing": [
+      "ssh-sshpass-missing"
+    ],
+    "tab_gone": [
+      "web-page-changed-by-other-session"
+    ],
+    "timeout_too_large": [
+      "general-timeout-unit-seconds"
+    ],
+    "tree_unavailable": [
+      "desktop-window-listed-but-content-elsewhere"
+    ],
+    "typed_text_mismatch": [
+      "android-korean-ime-jamo"
+    ],
+    "ui_automation_unavailable": [
+      "android-system-restart-loop"
+    ],
+    "ui_dump_failed": [
+      "android-emulator-unresponsive-host-swap",
+      "ios-maestro-driver-port-conflict"
+    ],
+    "ui_dump_timeout": [
+      "android-system-restart-loop"
+    ],
+    "wait_timeout": [
+      "desktop-notification-banner-expires"
+    ],
+    "window_not_found": [
+      "desktop-apple-2fa-code-window",
+      "desktop-notification-banner-expires",
+      "desktop-window-listed-but-content-elsewhere"
+    ]
+  },
+  "keywords": {
+    "--timeout": [
+      "general-timeout-unit-seconds"
+    ],
+    "22087": [
+      "ios-maestro-driver-port-conflict"
+    ],
+    "90s": [
+      "ios-maestro-slow-cold-start"
+    ],
+    "90초": [
+      "ios-maestro-slow-cold-start"
+    ],
+    "accessibility": [
+      "desktop-macos-permission-terminal"
+    ],
+    "account": [
+      "desktop-apple-2fa-code-window"
+    ],
+    "address": [
+      "ios-maestro-driver-port-conflict"
+    ],
+    "again": [
+      "general-login-interstitial-policy"
+    ],
+    "allow": [
+      "desktop-apple-2fa-code-window"
+    ],
+    "already": [
+      "ios-maestro-driver-port-conflict"
+    ],
+    "apple": [
+      "desktop-apple-2fa-code-window"
+    ],
+    "ask": [
+      "general-login-interstitial-policy"
+    ],
+    "axenhanceduserinterface": [
+      "desktop-browser-page-not-in-tree"
+    ],
+    "axmanualaccessibility": [
+      "desktop-browser-page-not-in-tree"
+    ],
+    "bar": [
+      "ios-status-bar-custom-time"
+    ],
+    "became": [
+      "ios-maestro-session-reconnect"
+    ],
+    "bulk": [
+      "web-script-browser-memory-exceeded"
+    ],
+    "cache": [
+      "general-plugin-cache-version-drift"
+    ],
+    "call": [
+      "ios-maestro-stale-driver-or-overload"
+    ],
+    "center": [
+      "desktop-notification-banner-expires"
+    ],
+    "chcp": [
+      "ssh-windows-cmd-encoding"
+    ],
+    "chrome": [
+      "web-orphan-headless-chrome"
+    ],
+    "client": [
+      "web-secret-in-input"
+    ],
+    "code": [
+      "desktop-apple-2fa-code-window",
+      "general-otp-no-resubmit"
+    ],
+    "config.json": [
+      "general-cred-never-read-config"
+    ],
+    "connected": [
+      "android-system-restart-loop"
+    ],
+    "connecting": [
+      "android-system-restart-loop"
+    ],
+    "container": [
+      "web-scroll-container-capture"
+    ],
+    "count": [
+      "ios-maestro-driver-port-conflict"
+    ],
+    "crash": [
+      "ios-app-vanishes-after-launch"
+    ],
+    "desc": [
+      "android-flutter-doubled-desc",
+      "ios-label-in-desc-doubled"
+    ],
+    "device": [
+      "general-login-interstitial-policy",
+      "ios-maestro-session-reconnect"
+    ],
+    "device_unreachable": [
+      "ios-maestro-session-reconnect"
+    ],
+    "directory": [
+      "general-zsh-variable-command"
+    ],
+    "don": [
+      "general-login-interstitial-policy"
+    ],
+    "element": [
+      "desktop-window-listed-but-content-elsewhere"
+    ],
+    "endpoint": [
+      "android-system-restart-loop"
+    ],
+    "enter-frame": [
+      "web-iframe-login-fields"
+    ],
+    "err_cert_authority_invalid": [
+      "web-goto-failed"
+    ],
+    "evaluatedcommand": [
+      "ios-maestro-log-keeps-input-text"
+    ],
+    "file": [
+      "general-zsh-variable-command"
+    ],
+    "find": [
+      "android-system-restart-loop"
+    ],
+    "followupui": [
+      "desktop-apple-2fa-code-window"
+    ],
+    "full-page": [
+      "web-scroll-container-capture"
+    ],
+    "gboard": [
+      "android-korean-ime-jamo"
+    ],
+    "gone": [
+      "desktop-window-listed-but-content-elsewhere"
+    ],
+    "headless": [
+      "web-orphan-headless-chrome"
+    ],
+    "iframe": [
+      "web-iframe-login-fields"
+    ],
+    "ime": [
+      "android-korean-ime-jamo"
+    ],
+    "inputtextcommand": [
+      "ios-maestro-log-keeps-input-text"
+    ],
+    "invalid": [
+      "general-otp-no-resubmit"
+    ],
+    "jamo": [
+      "android-korean-ime-jamo"
+    ],
+    "keep": [
+      "general-login-interstitial-policy"
+    ],
+    "launch_tab": [
+      "web-page-changed-by-other-session"
+    ],
+    "locale": [
+      "android-maps-locale"
+    ],
+    "locator": [
+      "web-selector-guess-timeout"
+    ],
+    "maestro": [
+      "ios-maestro-slow-cold-start",
+      "ios-maestro-stale-driver-or-overload"
+    ],
+    "maestro.log": [
+      "ios-maestro-log-keeps-input-text"
+    ],
+    "maps": [
+      "android-maps-locale"
+    ],
+    "mcurrentfocus": [
+      "android-app-not-foreground"
+    ],
+    "methodchannel": [
+      "general-render-failed-first-error"
+    ],
+    "minutemaidactivity": [
+      "android-app-not-foreground"
+    ],
+    "node": [
+      "android-no-focused-window"
+    ],
+    "notification": [
+      "desktop-notification-banner-expires"
+    ],
+    "null": [
+      "android-no-focused-window"
+    ],
+    "numberformatexception": [
+      "ios-maestro-point-integer-percent"
+    ],
+    "offline": [
+      "android-emulator-unresponsive-host-swap"
+    ],
+    "openwith": [
+      "desktop-window-listed-but-content-elsewhere"
+    ],
+    "otp": [
+      "general-otp-no-resubmit"
+    ],
+    "out": [
+      "ios-maestro-stale-driver-or-overload"
+    ],
+    "passkey": [
+      "general-login-interstitial-policy"
+    ],
+    "password": [
+      "general-cred-field-missing",
+      "general-cred-never-read-config"
+    ],
+    "plugins": [
+      "general-plugin-cache-version-drift"
+    ],
+    "point": [
+      "ios-maestro-point-integer-percent"
+    ],
+    "post": [
+      "web-save-by-network"
+    ],
+    "profile_locked": [
+      "browser-start-stale-process-or-lock"
+    ],
+    "projectops-marketplace": [
+      "general-plugin-cache-version-drift"
+    ],
+    "python3": [
+      "general-zsh-variable-command"
+    ],
+    "recording": [
+      "desktop-macos-permission-terminal"
+    ],
+    "recovered": [
+      "browser-start-stale-process-or-lock"
+    ],
+    "respond": [
+      "ios-maestro-stale-driver-or-overload"
+    ],
+    "returned": [
+      "android-no-focused-window"
+    ],
+    "root": [
+      "android-no-focused-window"
+    ],
+    "root_unknown": [
+      "general-root-unknown-skill-folder"
+    ],
+    "root_warning": [
+      "general-root-unknown-skill-folder"
+    ],
+    "save": [
+      "web-save-by-network"
+    ],
+    "scraping": [
+      "web-script-browser-memory-exceeded"
+    ],
+    "screen": [
+      "desktop-macos-permission-terminal"
+    ],
+    "secret": [
+      "web-secret-in-input"
+    ],
+    "semantics": [
+      "android-flutter-doubled-desc",
+      "ios-label-in-desc-doubled"
+    ],
+    "service": [
+      "android-system-restart-loop"
+    ],
+    "services.dart": [
+      "general-render-failed-first-error"
+    ],
+    "session_fallback": [
+      "ios-maestro-session-reconnect"
+    ],
+    "sha-1": [
+      "web-secret-in-input"
+    ],
+    "sigabrt": [
+      "ios-app-vanishes-after-launch"
+    ],
+    "signed": [
+      "general-login-interstitial-policy"
+    ],
+    "singletonlock": [
+      "browser-start-stale-process-or-lock"
+    ],
+    "singletonsocket": [
+      "browser-start-stale-process-or-lock"
+    ],
+    "start": [
+      "android-maestro-driver-start-timeout"
+    ],
+    "status": [
+      "ios-status-bar-custom-time"
+    ],
+    "status_bar": [
+      "ios-status-bar-custom-time"
+    ],
+    "stay": [
+      "general-login-interstitial-policy"
+    ],
+    "stderr_tail": [
+      "browser-start-stale-process-or-lock"
+    ],
+    "such": [
+      "general-zsh-variable-command"
+    ],
+    "swap": [
+      "android-emulator-unresponsive-host-swap",
+      "web-script-browser-memory-exceeded"
+    ],
+    "system_server": [
+      "android-emulator-unresponsive-host-swap"
+    ],
+    "tab_warning": [
+      "web-page-changed-by-other-session"
+    ],
+    "time": [
+      "android-maestro-driver-start-timeout"
+    ],
+    "timed": [
+      "ios-maestro-stale-driver-or-overload"
+    ],
+    "timeout": [
+      "android-system-restart-loop",
+      "web-selector-guess-timeout"
+    ],
+    "tools": [
+      "ios-maestro-stale-driver-or-overload"
+    ],
+    "transport": [
+      "android-system-restart-loop"
+    ],
+    "trust": [
+      "general-login-interstitial-policy"
+    ],
+    "uiautomation": [
+      "android-system-restart-loop"
+    ],
+    "uitestautomationbridge": [
+      "android-no-focused-window"
+    ],
+    "unicodedecodeerror": [
+      "ssh-windows-cmd-encoding"
+    ],
+    "unreachable": [
+      "ios-maestro-session-reconnect"
+    ],
+    "unresponsive": [
+      "ios-maestro-stale-driver-or-overload"
+    ],
+    "up": [
+      "android-maestro-driver-start-timeout"
+    ],
+    "use": [
+      "ios-maestro-driver-port-conflict"
+    ],
+    "verification": [
+      "desktop-apple-2fa-code-window",
+      "general-otp-no-resubmit"
+    ],
+    "waiting": [
+      "web-selector-guess-timeout"
+    ],
+    "webarea": [
+      "desktop-browser-page-not-in-tree"
+    ],
+    "while": [
+      "android-system-restart-loop"
+    ],
+    "xcodebuild": [
+      "ios-maestro-stale-driver-or-overload"
+    ],
+    "zsh": [
+      "general-zsh-variable-command"
+    ],
+    "값이": [
+      "general-cred-field-missing"
+    ],
+    "계정": [
+      "desktop-apple-2fa-code-window"
+    ],
+    "기기": [
+      "general-login-interstitial-policy"
+    ],
+    "기록": [
+      "desktop-macos-permission-terminal"
+    ],
+    "다시": [
+      "general-login-interstitial-policy"
+    ],
+    "대량": [
+      "web-script-browser-memory-exceeded"
+    ],
+    "뜨지": [
+      "browser-start-stale-process-or-lock"
+    ],
+    "렌더": [
+      "general-render-failed-first-error"
+    ],
+    "명령": [
+      "general-render-failed-first-error"
+    ],
+    "모릅니다": [
+      "web-viewport-width-height"
+    ],
+    "묻지": [
+      "general-login-interstitial-policy"
+    ],
+    "뷰포트": [
+      "web-viewport-width-height"
+    ],
+    "브라우저가": [
+      "browser-start-stale-process-or-lock"
+    ],
+    "비어": [
+      "general-env-not-set"
+    ],
+    "사용": [
+      "desktop-macos-permission-terminal"
+    ],
+    "상태": [
+      "general-login-interstitial-policy"
+    ],
+    "상태바": [
+      "ios-status-bar-custom-time"
+    ],
+    "선택": [
+      "desktop-window-listed-but-content-elsewhere"
+    ],
+    "센터": [
+      "desktop-notification-banner-expires"
+    ],
+    "손쉬운": [
+      "desktop-macos-permission-terminal"
+    ],
+    "수집": [
+      "web-script-browser-memory-exceeded"
+    ],
+    "스왑": [
+      "web-script-browser-memory-exceeded"
+    ],
+    "신뢰": [
+      "general-login-interstitial-policy"
+    ],
+    "실패": [
+      "general-render-failed-first-error"
+    ],
+    "않습니다": [
+      "general-bad-args-option-names"
+    ],
+    "않았습니다": [
+      "browser-start-stale-process-or-lock"
+    ],
+    "알림": [
+      "desktop-notification-banner-expires"
+    ],
+    "없습니다": [
+      "general-cred-field-missing"
+    ],
+    "없음": [
+      "ios-maestro-stale-driver-or-overload"
+    ],
+    "올바르지": [
+      "general-bad-args-option-names"
+    ],
+    "유지": [
+      "general-login-interstitial-policy"
+    ],
+    "응답": [
+      "ios-maestro-stale-driver-or-overload"
+    ],
+    "인자가": [
+      "general-bad-args-option-names"
+    ],
+    "인증": [
+      "general-otp-no-resubmit"
+    ],
+    "자모": [
+      "android-korean-ime-jamo"
+    ],
+    "저장": [
+      "web-save-by-network"
+    ],
+    "주소창": [
+      "desktop-browser-page-not-in-tree"
+    ],
+    "코드": [
+      "desktop-apple-2fa-code-window",
+      "general-otp-no-resubmit"
+    ],
+    "패스키": [
+      "general-login-interstitial-policy"
+    ],
+    "허용함": [
+      "desktop-apple-2fa-code-window"
+    ],
+    "화면": [
+      "desktop-macos-permission-terminal"
+    ],
+    "확인": [
+      "desktop-apple-2fa-code-window"
+    ],
+    "환경변수": [
+      "general-env-not-set"
+    ]
+  },
+  "entries": {
+    "android-adb-missing": {
+      "area": "android",
+      "title": "adb_missing · android_tool_missing — adb not found",
+      "fix_short": [
+        "If the SDK is elsewhere, call again with ANDROID_HOME=<SDK path> in front",
+        "launch_cli.py doctor"
+      ],
+      "keyword_count": 0,
+      "path": "android/android-adb-missing.json"
+    },
+    "android-app-not-foreground": {
+      "area": "android",
+      "title": "app launch is ok but another screen is on top",
+      "fix_short": [
+        "Check blocking_activity in the response",
+        "Check directly with adb shell dumpsys window | grep mCurrentFocus"
+      ],
+      "keyword_count": 2,
+      "path": "android/android-app-not-foreground.json"
+    },
+    "android-emulator-unresponsive-host-swap": {
+      "area": "android",
+      "title": "Emulator does not respond — host memory is full",
+      "fix_short": [
+        "Check memory pressure with launch_cli.py doctor --resources",
+        "Clean up and boot again with launch_cli.py device reboot --device <id> --cold"
+      ],
+      "keyword_count": 3,
+      "path": "android/android-emulator-unresponsive-host-swap.json"
+    },
+    "android-flutter-doubled-desc": {
+      "area": "android",
+      "title": "Android Flutter button desc appears twice",
+      "fix_short": [
+        "launch_cli.py app tap --desc <label> (newer versions match line by line)",
+        "On older versions, pass the whole string including the newline to --desc"
+      ],
+      "keyword_count": 2,
+      "path": "android/android-flutter-doubled-desc.json"
+    },
+    "android-korean-ime-jamo": {
+      "area": "android",
+      "title": "Android app type is ok but the Korean keyboard turns input into jamo",
+      "fix_short": [
+        "launch_cli.py app type --ime ascii --text <value> (switches to the Maestro IME while typing, then restores)",
+        "Manual: adb shell ime set dev.mobile.maestro/.input.MaestroInputMethodService, type, then restore the original IME"
+      ],
+      "keyword_count": 4,
+      "path": "android/android-korean-ime-jamo.json"
+    },
+    "android-maestro-driver-start-timeout": {
+      "area": "android",
+      "title": "maestro_driver_timeout — Maestro Android driver did not start in time",
+      "fix_short": [
+        "app flow already force-stops the driver apps and retries once before returning this code. Do not repeat the same command right away",
+        "Check whether heavy work such as a build (gradle · xcodebuild) is running, and retry after it ends"
+      ],
+      "keyword_count": 3,
+      "path": "android/android-maestro-driver-start-timeout.json"
+    },
+    "android-maps-locale": {
+      "area": "android",
+      "title": "Google Maps labels do not follow the app language",
+      "fix_short": [
+        "launch_cli.py device locale --device <id> --lang ja --region JP --app <package>",
+        "Directly: adb shell cmd locale set-app-locales <pkg> --locales ja-JP (verify with get-app-locales)"
+      ],
+      "keyword_count": 2,
+      "path": "android/android-maps-locale.json"
+    },
+    "android-no-focused-window": {
+      "area": "android",
+      "title": "no_focused_window — no focused window, screen structure unreadable (null root)",
+      "fix_short": [
+        "The CLI already wakes the screen (WAKEUP · unlock) and reads up to three times before returning this code. Call app tree once more after a few seconds",
+        "Look at the current screen with app shot. If it is a password lock screen, ask the user to unlock it"
+      ],
+      "keyword_count": 5,
+      "path": "android/android-no-focused-window.json"
+    },
+    "android-non-ascii-text": {
+      "area": "android",
+      "title": "Android app type returns non_ascii_unsupported — adb cannot type Korean",
+      "fix_short": [
+        "If an English or numeric value works instead, use it",
+        "If Korean text is required, ask the user before installing an IME such as ADBKeyboard"
+      ],
+      "keyword_count": 0,
+      "path": "android/android-non-ascii-text.json"
+    },
+    "android-system-restart-loop": {
+      "area": "android",
+      "title": "android_system_not_ready · ui_automation_unavailable — emulator restart loop",
+      "fix_short": [
+        "adb -s <serial> shell getprop init.svc.bootanim — if running, the system is not up yet",
+        "After the user confirms, adb -s <serial> reboot (soft reboot, keeps data). Measured: boot finished in 52 s and app run worked"
+      ],
+      "keyword_count": 9,
+      "path": "android/android-system-restart-loop.json"
+    },
+    "browser-start-stale-process-or-lock": {
+      "area": "web",
+      "title": "web open fails with browser_start_failed — a problem left after self-recovery",
+      "fix_short": [
+        "Read stderr_tail in the response — it holds the reason the browser died immediately",
+        "If profile_locked is true, find the browser process using the response's profile folder (ps · Task Manager), confirm with the user, then end it"
+      ],
+      "keyword_count": 8,
+      "path": "web/browser-start-stale-process-or-lock.json"
+    },
+    "desktop-apple-2fa-code-window": {
+      "area": "desktop",
+      "title": "Apple Account 2FA on this Mac: allow the alert, read the code window",
+      "fix_short": [
+        "Ask the user first: Allow approves a sign-in to their Apple Account. Only for the sign-in this session just started",
+        "launch_cli.py desktop wait --window overlay --text \"Apple\" --timeout 60, then click --ref <ref> --action \"<Allow name from named_actions>\" --confirm-mutating a…"
+      ],
+      "keyword_count": 10,
+      "path": "desktop/desktop-apple-2fa-code-window.json"
+    },
+    "desktop-browser-page-not-in-tree": {
+      "area": "desktop",
+      "title": "desktop tree of Chrome or an Electron app shows only the toolbar, not the page",
+      "fix_short": [
+        "launch_cli.py desktop find --window \"<title>\" --role textfield --max-nodes 1500 --depth 60 # pages are deep",
+        "Prefer web find / web type when the page belongs to a pro-launch web session"
+      ],
+      "keyword_count": 4,
+      "path": "desktop/desktop-browser-page-not-in-tree.json"
+    },
+    "desktop-macos-permission-terminal": {
+      "area": "desktop",
+      "title": "macOS desktop returns permission_missing although Python was allowed",
+      "fix_short": [
+        "System Settings > Privacy & Security > Accessibility: turn on the terminal app that runs the agent",
+        "System Settings > Privacy & Security > Screen & System Audio Recording: turn on the same app"
+      ],
+      "keyword_count": 7,
+      "path": "desktop/desktop-macos-permission-terminal.json"
+    },
+    "desktop-notification-banner-expires": {
+      "area": "desktop",
+      "title": "A macOS notification banner disappears before it is pressed",
+      "fix_short": [
+        "launch_cli.py desktop wait --window overlay --text \"<banner text>\" # returns matches with ref, no find needed",
+        "launch_cli.py desktop click --ref <ref> --action \"<name from named_actions>\" # hidden buttons (Close, Allow) need no hover"
+      ],
+      "keyword_count": 4,
+      "path": "desktop/desktop-notification-banner-expires.json"
+    },
+    "desktop-window-listed-but-content-elsewhere": {
+      "area": "desktop",
+      "title": "A listed dialog shows almost no elements, or click returns ref_stale",
+      "fix_short": [
+        "launch_cli.py desktop windows # list again; pick the window that holds the content (zero-size placeholders are no longer listed)",
+        "launch_cli.py desktop find --window \"<that title>\" --text \"<button>\""
+      ],
+      "keyword_count": 4,
+      "path": "desktop/desktop-window-listed-but-content-elsewhere.json"
+    },
+    "general-app-no-device": {
+      "area": "general",
+      "title": "app command returns no_device — several devices attached or simulator not booted",
+      "fix_short": [
+        "Pick one from android · ios_booted in the response and call again with --device <serial or UDID>",
+        "Bind a role to pin it as $DEV in env.sh: launch_cli.py device bind --role <role> --serial <serial>"
+      ],
+      "keyword_count": 0,
+      "path": "general/general-app-no-device.json"
+    },
+    "general-bad-args-option-names": {
+      "area": "general",
+      "title": "bad_args — wrong option name (--full-page · --field · positional argument)",
+      "fix_short": [
+        "Read the unrecognized arguments · invalid choice part of error first",
+        "launch_cli.py web --help"
+      ],
+      "keyword_count": 3,
+      "path": "general/general-bad-args-option-names.json"
+    },
+    "general-cred-field-missing": {
+      "area": "general",
+      "title": "--cred returns cred_field_missing — without a field choice it types password",
+      "fix_short": [
+        "For the username box: launch_cli.py web type --selector <box> --cred <name> --cred-field account",
+        "If the field really is missing, get the value from the user and fill it with cred set (do not write the value yourself)"
+      ],
+      "keyword_count": 3,
+      "path": "general/general-cred-field-missing.json"
+    },
+    "general-cred-never-read-config": {
+      "area": "general",
+      "title": "Never read credentials straight from the config file",
+      "fix_short": [
+        "Use app type --cred <name> --cred-field <field> / web type --cred",
+        "Use cred references in app run steps too"
+      ],
+      "keyword_count": 2,
+      "path": "general/general-cred-never-read-config.json"
+    },
+    "general-env-not-set": {
+      "area": "general",
+      "title": "--text-env returns env_not_set — pass the variable name, not the value",
+      "fix_short": [
+        "Prefix it on the same command line: CODE=<value> launch_cli.py web type --selector <box> --text-env CODE",
+        "The command line stays in the session record — pass only values that may stay there this way, such as one-time codes"
+      ],
+      "keyword_count": 2,
+      "path": "general/general-env-not-set.json"
+    },
+    "general-login-interstitial-policy": {
+      "area": "general",
+      "title": "Login stops every time at trust-device · stay-signed-in · upsell screens",
+      "fix_short": [
+        "launch_cli.py cred policy get --name <name>",
+        "launch_cli.py cred policy set --name <name> --key trust_device --value always"
+      ],
+      "keyword_count": 16,
+      "path": "general/general-login-interstitial-policy.json"
+    },
+    "general-otp-no-resubmit": {
+      "area": "general",
+      "title": "Do not resubmit the login form while waiting for a verification code",
+      "fix_short": [
+        "Do not resubmit the form while waiting for the code",
+        "First check with web text that the OTP screen is showing"
+      ],
+      "keyword_count": 6,
+      "path": "general/general-otp-no-resubmit.json"
+    },
+    "general-plugin-cache-version-drift": {
+      "area": "general",
+      "title": "Scripts called from a different plugin cache version path each session",
+      "fix_short": [
+        "At session start, rerun the 'Find the scripts' block in SKILL.md to get SCRIPTS — do not paste an old version path",
+        "Read the docs from the same version folder too (references/ above SCRIPTS)"
+      ],
+      "keyword_count": 3,
+      "path": "general/general-plugin-cache-version-drift.json"
+    },
+    "general-render-failed-first-error": {
+      "area": "general",
+      "title": "render run returns render_failed — start from first_error; usually services.dart",
+      "fix_short": [
+        "Read first_error in the response first (or output_tail if absent)",
+        "On Undefined name · Couldn't find constructor 'MethodChannel', add import 'package:flutter/services.dart';"
+      ],
+      "keyword_count": 5,
+      "path": "general/general-render-failed-first-error.json"
+    },
+    "general-root-unknown-skill-folder": {
+      "area": "general",
+      "title": "Captures and state pile up in the wrong place, e.g. ~/.projectops/launch/scripts",
+      "fix_short": [
+        "Call the script by absolute path from the project folder and add --root <project path>",
+        "Or prefix PROJECT_ROOT=<project path> (used when called from a scripts or cache folder)"
+      ],
+      "keyword_count": 2,
+      "path": "general/general-root-unknown-skill-folder.json"
+    },
+    "general-timeout-unit-seconds": {
+      "area": "general",
+      "title": "--timeout given in milliseconds — the unit is seconds",
+      "fix_short": [
+        "Give --timeout in seconds (default 10, max 300)",
+        "If it already hung, recover with web close, then web open"
+      ],
+      "keyword_count": 1,
+      "path": "general/general-timeout-unit-seconds.json"
+    },
+    "general-zsh-variable-command": {
+      "area": "general",
+      "title": "In zsh a command stored in a variable is one word and fails with 'no such file'",
+      "fix_short": [
+        "Call the fixed entry point directly: python3 ~/.projectops/bin/launch_cli.py doctor",
+        "To repeat it, wrap it in a function: launch() { python3 \"$HOME/.projectops/bin/launch_cli.py\" \"$@\"; }"
+      ],
+      "keyword_count": 5,
+      "path": "general/general-zsh-variable-command.json"
+    },
+    "ios-app-vanishes-after-launch": {
+      "area": "ios",
+      "title": "iOS app vanishes right after launch, and app shot captures the home screen",
+      "fix_short": [
+        "Read crash_report and the exception line in the launch_cli.py app launch response",
+        "If absent, open the latest Runner-*.ips in ~/Library/Logs/DiagnosticReports"
+      ],
+      "keyword_count": 2,
+      "path": "ios/ios-app-vanishes-after-launch.json"
+    },
+    "ios-label-in-desc-doubled": {
+      "area": "ios",
+      "title": "iOS Flutter button label appears doubled in desc, so --text cannot tap it",
+      "fix_short": [
+        "Check the element's desc in app tree",
+        "Tap with launch_cli.py app tap --desc <text> (the latest version matches desc and doubled labels automatically)"
+      ],
+      "keyword_count": 2,
+      "path": "ios/ios-label-in-desc-doubled.json"
+    },
+    "ios-maestro-driver-port-conflict": {
+      "area": "ios",
+      "title": "iOS tree finds 0 elements with several simulators — driver port 22087 conflict",
+      "fix_short": [
+        "Find the process holding the port with lsof -nP -iTCP:22087 -sTCP:LISTEN, and check which UDID's driver it is with ps -p <PID> -o command=",
+        "If another session's driver holds it, do not kill it — wait for that work to finish or ask the user (Maestro drives one simulator at a time)"
+      ],
+      "keyword_count": 5,
+      "path": "ios/ios-maestro-driver-port-conflict.json"
+    },
+    "ios-maestro-log-keeps-input-text": {
+      "area": "ios",
+      "title": "Maestro's record (maestro.log) keeps the real inputText value in plain text",
+      "fix_short": [
+        "pro-launch's app type and type steps send the record to a temp folder (--debug-output <temp folder> --flatten-debug-output) and delete it; use the same options…",
+        "If records already remain, tell the user and ask whether to delete them (do not delete them on your own)"
+      ],
+      "keyword_count": 3,
+      "path": "ios/ios-maestro-log-keeps-input-text.json"
+    },
+    "ios-maestro-not-installed": {
+      "area": "ios",
+      "title": "iOS app tap · swipe · tree return ios_tool_missing — Maestro is not installed",
+      "fix_short": [
+        "Ask the user before installing: curl -fsSL \"https://get.maestro.mobile.dev\" | bash",
+        "launch_cli.py app tree --device <simulator id>"
+      ],
+      "keyword_count": 0,
+      "path": "ios/ios-maestro-not-installed.json"
+    },
+    "ios-maestro-point-integer-percent": {
+      "area": "ios",
+      "title": "Maestro flow point percentages accept integers only (NumberFormatException)",
+      "fix_short": [
+        "Read the last error line in maestro.log first (~/.maestro/tests/<timestamp>/maestro.log)",
+        "Round the percentage to an integer (72.7% → 73%)"
+      ],
+      "keyword_count": 2,
+      "path": "ios/ios-maestro-point-integer-percent.json"
+    },
+    "ios-maestro-session-reconnect": {
+      "area": "ios",
+      "title": "The resident session dropped — another maestro test attached to the same device",
+      "fix_short": [
+        "One slow call is normal — keep going",
+        "If device_unreachable persists, check whether another session is running maestro on the same device (ps -ax | grep maestro)"
+      ],
+      "keyword_count": 5,
+      "path": "ios/ios-maestro-session-reconnect.json"
+    },
+    "ios-maestro-slow-cold-start": {
+      "area": "ios",
+      "title": "iOS app tap · swipe · tree take tens of seconds — Maestro JVM starts per call",
+      "fix_short": [
+        "If you look → decide → tap many times, start the resident session first: launch_cli.py app session start --device <UDID> (then tree 0.6 s · tap 1 s)",
+        "Do not fire the same command again because it is slow — wait for the previous call to finish"
+      ],
+      "keyword_count": 3,
+      "path": "ios/ios-maestro-slow-cold-start.json"
+    },
+    "ios-maestro-stale-driver-or-overload": {
+      "area": "ios",
+      "title": "iOS tap fails at 90 s and session start fails too — leftover driver or load",
+      "fix_short": [
+        "Check load with uptime (2x the core count or more means overload)",
+        "In ps, check that maestro-driver-ios-config · maestro/lib are not owned by a pro-launch session"
+      ],
+      "keyword_count": 10,
+      "path": "ios/ios-maestro-stale-driver-or-overload.json"
+    },
+    "ios-status-bar-custom-time": {
+      "area": "ios",
+      "title": "iOS capture status bar time must match the notification time",
+      "fix_short": [
+        "launch_cli.py app shot --clean-status --time 7:42",
+        "By hand: xcrun simctl status_bar <UDID> override --time 7:42, capture, then restore with status_bar clear"
+      ],
+      "keyword_count": 4,
+      "path": "ios/ios-status-bar-custom-time.json"
+    },
+    "ssh-sshpass-missing": {
+      "area": "ssh",
+      "title": "Password ssh returns sshpass_missing — update the plugin (OpenSSH askpass path)",
+      "fix_short": [
+        "Update the plugin, then rerun the same launch_cli.py ssh command",
+        "With a key: launch_cli.py ssh --cred <server> --key-path <key file> --command '<command>'"
+      ],
+      "keyword_count": 0,
+      "path": "ssh/ssh-sshpass-missing.json"
+    },
+    "ssh-windows-cmd-encoding": {
+      "area": "ssh",
+      "title": "Output from a Windows cmd (CP949) host is garbled",
+      "fix_short": [
+        "Newer versions decode UTF-8 > CP949 in that order (check stdout_encoding)",
+        "On older versions, prefix the command with 'chcp 65001 >nul &'"
+      ],
+      "keyword_count": 2,
+      "path": "ssh/ssh-windows-cmd-encoding.json"
+    },
+    "web-browser-gone": {
+      "area": "web",
+      "title": "web commands fail with browser_gone — could not attach to the running browser",
+      "fix_short": [
+        "launch_cli.py web open --url <url>",
+        "If open fails with browser_start_failed: kb show browser-start-stale-process-or-lock"
+      ],
+      "keyword_count": 0,
+      "path": "web/web-browser-gone.json"
+    },
+    "web-browser-not-open-other-root": {
+      "area": "web",
+      "title": "browser_not_open right after opening — called from another project's location",
+      "fix_short": [
+        "launch_cli.py web text --root <project path>",
+        "Call open with the same --root too. Do not cd into the scripts folder; call the script by absolute path"
+      ],
+      "keyword_count": 0,
+      "path": "web/web-browser-not-open-other-root.json"
+    },
+    "web-click-wait-with-expect": {
+      "area": "web",
+      "title": "Do not wait with sleep — use click's --expect-url · --expect-text",
+      "fix_short": [
+        "launch_cli.py web click --ref <number> --expect-text <text on the next screen> --timeout 30",
+        "launch_cli.py web click --ref <number> --expect-url <part of the new URL>"
+      ],
+      "keyword_count": 0,
+      "path": "web/web-click-wait-with-expect.json"
+    },
+    "web-find-nothing-found": {
+      "area": "web",
+      "title": "web find returns nothing_found — by default it finds only clickable elements",
+      "fix_short": [
+        "launch_cli.py web text --max-chars 3000",
+        "launch_cli.py web find --text <text exactly as seen in web text>"
+      ],
+      "keyword_count": 0,
+      "path": "web/web-find-nothing-found.json"
+    },
+    "web-goto-failed": {
+      "area": "web",
+      "title": "web open · goto navigation fails — check the URL, the server, the certificate",
+      "fix_short": [
+        "For a local server, first check it is up: launch_cli.py http --url <url>",
+        "Certificate error (test servers only): launch_cli.py web close"
+      ],
+      "keyword_count": 1,
+      "path": "web/web-goto-failed.json"
+    },
+    "web-iframe-login-fields": {
+      "area": "web",
+      "title": "Cannot find login fields inside an iframe (App Store Connect, etc.)",
+      "fix_short": [
+        "launch_cli.py web type --selector \"iframe >> internal:control=enter-frame >> input#account_name_text_field\" --cred <name> --cred-field account",
+        "launch_cli.py web click --selector \"iframe >> internal:control=enter-frame >> #sign-in\" --expect-text <text shown after login>"
+      ],
+      "keyword_count": 2,
+      "path": "web/web-iframe-login-fields.json"
+    },
+    "web-orphan-headless-chrome": {
+      "area": "web",
+      "title": "Double-clicking an HTML file does not open Chrome — orphan headless Chrome",
+      "fix_short": [
+        "Clean up orphans with launch_cli.py web close --stale (other people's live browsers are only reported)",
+        "By hand: in ps -axo pid,ppid,command | grep -- --headless, look for entries with PPID 1"
+      ],
+      "keyword_count": 2,
+      "path": "web/web-orphan-headless-chrome.json"
+    },
+    "web-page-changed-by-other-session": {
+      "area": "web",
+      "title": "Another session moves the same tab and your input is lost",
+      "fix_short": [
+        "launch_cli.py web tab new --name <name> --url <url>",
+        "Prefix every web command in this session with LAUNCH_TAB=<name>"
+      ],
+      "keyword_count": 2,
+      "path": "web/web-page-changed-by-other-session.json"
+    },
+    "web-playwright-or-browser-missing": {
+      "area": "web",
+      "title": "playwright_missing · browser_missing — web setup is needed",
+      "fix_short": [
+        "Ask the user before installing (about 100 MB): launch_cli.py web setup",
+        "On an internal network, use an installed Chrome · Edge: prefix web open with LAUNCH_CHROMIUM_PATH=<browser executable path>"
+      ],
+      "keyword_count": 0,
+      "path": "web/web-playwright-or-browser-missing.json"
+    },
+    "web-readonly-mutating-blocked": {
+      "area": "web",
+      "title": "Save · submit buttons return mutating_blocked in a read-only session",
+      "fix_short": [
+        "Tell the user what will change and get approval (hard to undo)",
+        "After approval: launch_cli.py web click --ref <number> --confirm-mutating"
+      ],
+      "keyword_count": 0,
+      "path": "web/web-readonly-mutating-blocked.json"
+    },
+    "web-save-by-network": {
+      "area": "web",
+      "title": "Judge whether a save worked by the request response, not on-screen text",
+      "fix_short": [
+        "Check the POST/PUT response status with launch_cli.py web click --capture-requests",
+        "Judge by status 2xx vs 4xx (URL query strings are masked)"
+      ],
+      "keyword_count": 3,
+      "path": "web/web-save-by-network.json"
+    },
+    "web-script-browser-memory-exceeded": {
+      "area": "web",
+      "title": "Bulk scraping in web script bloats browser memory — use cookies + HTTP",
+      "fix_short": [
+        "Use the browser only to log in, and have web script write context.cookies() to a file in the run folder (do not print it as the result — it would stay in the r…",
+        "Scrape over HTTP (urllib · requests) with those cookies in a Cookie header. If a list API exists, call the API instead of the screens"
+      ],
+      "keyword_count": 6,
+      "path": "web/web-script-browser-memory-exceeded.json"
+    },
+    "web-scroll-container-capture": {
+      "area": "web",
+      "title": "Inner-scroll screens (Google Forms editor, etc.) are not captured by full-page",
+      "fix_short": [
+        "launch_cli.py web shot --container <selector> --tiles 5",
+        "By hand: repeat web scroll --container <selector>, then web shot"
+      ],
+      "keyword_count": 2,
+      "path": "web/web-scroll-container-capture.json"
+    },
+    "web-secret-in-input": {
+      "area": "web",
+      "title": "A secret value exists only inside an input or behind a copy button",
+      "fix_short": [
+        "launch_cli.py web value --selector <selector> --save-env NAME (saves without printing the value)",
+        "For a copy button, click it, then web clipboard --save-env NAME"
+      ],
+      "keyword_count": 3,
+      "path": "web/web-secret-in-input.json"
+    },
+    "web-selector-guess-timeout": {
+      "area": "web",
+      "title": "A guessed --selector misses — pick from candidates in the result, press by --ref",
+      "fix_short": [
+        "Pick the right one from candidates in the failure result and call again with --ref as next says (earlier entries are closer to the guessed selector)",
+        "launch_cli.py web click --ref <number> --expect-url <part of the new URL>"
+      ],
+      "keyword_count": 3,
+      "path": "web/web-selector-guess-timeout.json"
+    },
+    "web-viewport-width-height": {
+      "area": "web",
+      "title": "web viewport --width --height returns bad_viewport — set the size with --preset",
+      "fix_short": [
+        "launch_cli.py web viewport --preset 1280x900",
+        "launch_cli.py web viewport --preset mobile"
+      ],
+      "keyword_count": 2,
+      "path": "web/web-viewport-width-height.json"
+    }
+  }
+}

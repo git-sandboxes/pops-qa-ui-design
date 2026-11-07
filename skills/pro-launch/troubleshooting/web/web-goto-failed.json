@@ -1,0 +1,25 @@
+{
+  "id": "web-goto-failed",
+  "area": "web",
+  "title": "web open · goto navigation fails — check the URL, the server, the certificate",
+  "match": {
+    "codes": [
+      "goto_failed"
+    ],
+    "keywords": [
+      "ERR_CERT_AUTHORITY_INVALID"
+    ]
+  },
+  "symptom": "web open --url ends with goto_failed, or web goto ends with web_action_failed. The error contains text such as Timeout, ERR_CONNECTION_REFUSED or ERR_CERT_*",
+  "cause": "The navigation itself failed: the server is not up or the URL is wrong (Timeout · CONNECTION_REFUSED), or a private or self-signed certificate blocked it (ERR_CERT · ERR_SSL). web goto treats 404 and 500 pages as successful navigation and reports them in status",
+  "fix": [
+    "For a local server, first check it is up: launch_cli.py http --url <url>",
+    "Certificate error (test servers only): launch_cli.py web close",
+    "launch_cli.py web open --ignore-cert-errors --url <url>  # applies only when a new browser starts"
+  ],
+  "refs": [
+    711,
+    889
+  ],
+  "verified_at": "2026-10-17"
+}

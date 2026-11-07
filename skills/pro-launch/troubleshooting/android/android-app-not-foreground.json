@@ -1,0 +1,30 @@
+{
+  "id": "android-app-not-foreground",
+  "area": "android",
+  "title": "app launch is ok but another screen is on top",
+  "match": {
+    "codes": [
+      "not_foreground"
+    ],
+    "keywords": [
+      "mCurrentFocus",
+      "MinuteMaidActivity"
+    ]
+  },
+  "symptom": "launch · relaunch · back succeed but the screen does not change (e.g. another session's Google login)",
+  "cause": "Another app (e.g. the com.google.android.gms login) holds the top of a shared emulator. back may not work",
+  "fix": [
+    "Check blocking_activity in the response",
+    "Check directly with adb shell dumpsys window | grep mCurrentFocus",
+    "Check owner in device list to see if someone else uses the device; if so, ask first",
+    "If it does not clear, launch_cli.py device reboot --cold (about 35 s)"
+  ],
+  "refs": [
+    923,
+    925
+  ],
+  "verified_at": "2026-10-18",
+  "see_also": [
+    "android-no-focused-window"
+  ]
+}

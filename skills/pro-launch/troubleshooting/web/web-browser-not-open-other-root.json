@@ -1,0 +1,27 @@
+{
+  "id": "web-browser-not-open-other-root",
+  "area": "web",
+  "title": "browser_not_open right after opening — called from another project's location",
+  "match": {
+    "codes": [
+      "browser_not_open"
+    ],
+    "keywords": []
+  },
+  "symptom": "web open succeeded, but the next web text · shot returns browser_not_open (no open browser). The --root path in next is a scripts folder, the plugin cache or a temp folder",
+  "cause": "Each project (git remote owner/repo) has its own browser state file. If open and the next command use different working folders (--root, default '.'), they read different state files. cd into the scripts folder or calling from a temp folder splits them like this",
+  "fix": [
+    "launch_cli.py web text --root <project path>",
+    "Call open with the same --root too. Do not cd into the scripts folder; call the script by absolute path",
+    "If it really is not running: launch_cli.py web open --root <project path> --url <url>"
+  ],
+  "refs": [
+    833,
+    836,
+    889
+  ],
+  "verified_at": "2026-10-17",
+  "see_also": [
+    "general-root-unknown-skill-folder"
+  ]
+}

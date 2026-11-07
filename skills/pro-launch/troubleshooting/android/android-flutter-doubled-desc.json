@@ -1,0 +1,24 @@
+{
+  "id": "android-flutter-doubled-desc",
+  "area": "android",
+  "title": "Android Flutter button desc appears twice",
+  "match": {
+    "codes": [
+      "not_found"
+    ],
+    "keywords": [
+      "desc",
+      "Semantics"
+    ]
+  },
+  "symptom": "app tap --text returns not_found, but the desc in tree is 'label\\nlabel'",
+  "cause": "Flutter merges Semantics into content-desc, so the same line repeats",
+  "fix": [
+    "launch_cli.py app tap --desc <label> (newer versions match line by line)",
+    "On older versions, pass the whole string including the newline to --desc"
+  ],
+  "refs": [
+    927
+  ],
+  "verified_at": "2026-10-18"
+}

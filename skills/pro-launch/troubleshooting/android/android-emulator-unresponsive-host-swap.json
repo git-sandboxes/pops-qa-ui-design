@@ -1,0 +1,32 @@
+{
+  "id": "android-emulator-unresponsive-host-swap",
+  "area": "android",
+  "title": "Emulator does not respond — host memory is full",
+  "match": {
+    "codes": [
+      "device_unresponsive",
+      "ui_dump_failed"
+    ],
+    "keywords": [
+      "swap",
+      "offline",
+      "system_server"
+    ]
+  },
+  "symptom": "adb install · shell time out, followed by ui_dump_failed (count 0) or offline",
+  "cause": "Host swap is nearly full, or the AVD has 1 core/2 GB, so the watchdog keeps restarting system_server",
+  "fix": [
+    "Check memory pressure with launch_cli.py doctor --resources",
+    "Clean up and boot again with launch_cli.py device reboot --device <id> --cold",
+    "If the AVD is small: emulator -avd <name> -no-snapshot -cores 4 -memory 4096",
+    "'Broken pipe'/'Can't find service: package' right after boot: wait until service check package says found, then retry",
+    "With -no-snapshot-save, app data written while running is lost on shutdown"
+  ],
+  "refs": [
+    924
+  ],
+  "verified_at": "2026-10-18",
+  "see_also": [
+    "android-system-restart-loop"
+  ]
+}

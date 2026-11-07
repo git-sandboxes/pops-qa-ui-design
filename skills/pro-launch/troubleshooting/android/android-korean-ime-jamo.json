@@ -1,0 +1,30 @@
+{
+  "id": "android-korean-ime-jamo",
+  "area": "android",
+  "title": "Android app type is ok but the Korean keyboard turns input into jamo",
+  "match": {
+    "codes": [
+      "typed_text_mismatch"
+    ],
+    "keywords": [
+      "자모",
+      "Gboard",
+      "IME",
+      "jamo"
+    ]
+  },
+  "symptom": "You typed an English ID with app type, but the field contains Korean jamo",
+  "cause": "adb input text sends key events, so the Gboard Korean layout composes them. The result differs even for ASCII values",
+  "fix": [
+    "launch_cli.py app type --ime ascii --text <value> (switches to the Maestro IME while typing, then restores)",
+    "Manual: adb shell ime set dev.mobile.maestro/.input.MaestroInputMethodService, type, then restore the original IME",
+    "The IME is a device-wide setting. If another session uses the device, ask first"
+  ],
+  "refs": [
+    926
+  ],
+  "verified_at": "2026-10-18",
+  "see_also": [
+    "android-non-ascii-text"
+  ]
+}

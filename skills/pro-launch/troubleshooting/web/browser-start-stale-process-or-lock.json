@@ -1,0 +1,33 @@
+{
+  "id": "browser-start-stale-process-or-lock",
+  "area": "web",
+  "title": "web open fails with browser_start_failed — a problem left after self-recovery",
+  "match": {
+    "codes": [
+      "browser_start_failed",
+      "browser_hung"
+    ],
+    "keywords": [
+      "SingletonLock",
+      "SingletonSocket",
+      "profile_locked",
+      "stderr_tail",
+      "recovered",
+      "브라우저가 뜨지 않았습니다"
+    ]
+  },
+  "symptom": "web open ends with browser_start_failed and no browser appears (error: \"Browser did not start\"). The response carries causes · recovered · stderr_tail",
+  "cause": "web open first checks the recorded browser: if it is dead, it clears leftover locks; if it is alive but CDP does not answer within 3 s, it kills it and starts a new one (recovered lists dead_pid · stale_lock · hung_browser). If it still fails, an unrecorded process is using the same profile (locks are not deleted then), or the browser itself dies immediately",
+  "fix": [
+    "Read stderr_tail in the response — it holds the reason the browser died immediately",
+    "If profile_locked is true, find the browser process using the response's profile folder (ps · Task Manager), confirm with the user, then end it",
+    "launch_cli.py web open --url <url>",
+    "If the response is browser_still_alive, end that pid with the kill command in next (kill -9 <pid> or taskkill)"
+  ],
+  "refs": [
+    711,
+    712,
+    887
+  ],
+  "verified_at": "2026-10-17"
+}

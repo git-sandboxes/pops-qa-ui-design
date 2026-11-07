@@ -1,0 +1,26 @@
+{
+  "id": "general-zsh-variable-command",
+  "area": "general",
+  "title": "In zsh a command stored in a variable is one word and fails with 'no such file'",
+  "match": {
+    "codes": [],
+    "keywords": [
+      "no such file or directory: python3",
+      "zsh"
+    ]
+  },
+  "symptom": "L=\"python3 …/launch_cli.py\"; $L web … fails with 'no such file or directory: python3 /…/launch_cli.py'",
+  "cause": "zsh does not split variables into words (unlike bash)",
+  "fix": [
+    "Call the fixed entry point directly: python3 ~/.projectops/bin/launch_cli.py doctor",
+    "To repeat it, wrap it in a function: launch() { python3 \"$HOME/.projectops/bin/launch_cli.py\" \"$@\"; }",
+    "Do not store several arguments in one variable like 'web $a' (use bash -c if needed)"
+  ],
+  "refs": [
+    920
+  ],
+  "verified_at": "2026-10-18",
+  "see_also": [
+    "general-plugin-cache-version-drift"
+  ]
+}

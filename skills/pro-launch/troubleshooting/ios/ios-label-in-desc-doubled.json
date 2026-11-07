@@ -1,0 +1,25 @@
+{
+  "id": "ios-label-in-desc-doubled",
+  "area": "ios",
+  "title": "iOS Flutter button label appears doubled in desc, so --text cannot tap it",
+  "match": {
+    "codes": [
+      "not_found"
+    ],
+    "keywords": [
+      "desc",
+      "Semantics"
+    ]
+  },
+  "symptom": "app tap --text returns not_found, but the text is in the tree ('GitHub로 계속하기\\nGitHub로 계속하기', i.e. 'Continue with GitHub' twice)",
+  "cause": "Flutter Semantics labels come out as desc, with the same line repeated twice. Older versions looked only at the text field",
+  "fix": [
+    "Check the element's desc in app tree",
+    "Tap with launch_cli.py app tap --desc <text> (the latest version matches desc and doubled labels automatically)",
+    "If a button inside a webview cannot be found by name, use --at ratio coordinates"
+  ],
+  "refs": [
+    927
+  ],
+  "verified_at": "2026-10-18"
+}

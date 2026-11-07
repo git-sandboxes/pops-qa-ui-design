@@ -1,0 +1,28 @@
+{
+  "id": "general-render-failed-first-error",
+  "area": "general",
+  "title": "render run returns render_failed — start from first_error; usually services.dart",
+  "match": {
+    "codes": [
+      "render_failed"
+    ],
+    "keywords": [
+      "MethodChannel",
+      "services.dart",
+      "렌더 명령 실패"
+    ]
+  },
+  "symptom": "render run ends with render_failed (\"Render command failed\") and collects nothing. The same failure repeats",
+  "cause": "The render command (flutter test, etc.) failed to compile or run. The most common cause: the render skeleton lacks the package:flutter/services.dart import, so MethodChannel · SystemChrome are not found",
+  "fix": [
+    "Read first_error in the response first (or output_tail if absent)",
+    "On Undefined name · Couldn't find constructor 'MethodChannel', add import 'package:flutter/services.dart';",
+    "If you use screen widgets or fake models, also add their package:<app>/... imports",
+    "See the pitfalls table in references/render.md"
+  ],
+  "refs": [
+    901,
+    889
+  ],
+  "verified_at": "2026-10-17"
+}

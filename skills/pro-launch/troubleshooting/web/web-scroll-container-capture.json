@@ -1,0 +1,22 @@
+{
+  "id": "web-scroll-container-capture",
+  "area": "web",
+  "title": "Inner-scroll screens (Google Forms editor, etc.) are not captured by full-page",
+  "match": {
+    "codes": [],
+    "keywords": [
+      "full-page",
+      "container"
+    ]
+  },
+  "symptom": "web shot --full-page is cut off at the first screen",
+  "cause": "An inner container scrolls, not the document",
+  "fix": [
+    "launch_cli.py web shot --container <selector> --tiles 5",
+    "By hand: repeat web scroll --container <selector>, then web shot"
+  ],
+  "refs": [
+    930
+  ],
+  "verified_at": "2026-10-18"
+}

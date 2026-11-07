@@ -1,0 +1,29 @@
+{
+  "id": "android-system-restart-loop",
+  "area": "android",
+  "title": "android_system_not_ready · ui_automation_unavailable — emulator restart loop",
+  "match": {
+    "codes": [
+      "android_system_not_ready",
+      "ui_automation_unavailable",
+      "ui_dump_timeout"
+    ],
+    "keywords": [
+      "Timeout while connecting UiAutomation",
+      "Can't find service",
+      "Transport endpoint is not connected"
+    ]
+  },
+  "symptom": "uiautomator dump ends with 'Killed' or hangs, and the screen stays on the Google boot logo. adb shell dumpsys activity gives 'Can't find service: activity'; /sdcard gives 'Transport endpoint is not connected'",
+  "cause": "system_server restarts every few minutes (pidof system_server changes, getprop init.svc.bootanim = running). Seen on a long-running emulator (measured: up 1 day 10 hours · 100 MB free of 2 GB). sys.boot_completed stays 1, so boot looks finished",
+  "fix": [
+    "adb -s <serial> shell getprop init.svc.bootanim — if running, the system is not up yet",
+    "After the user confirms, adb -s <serial> reboot (soft reboot, keeps data). Measured: boot finished in 52 s and app run worked",
+    "If nothing changes after a few minutes, ask about a cold boot: emulator -avd <AVD> -no-snapshot-load (another session may use it; do not shut it down on your own)",
+    "If only ui_automation_unavailable persists, check whether other automation (Maestro · Appium) holds UiAutomation"
+  ],
+  "refs": [
+    894
+  ],
+  "verified_at": "2026-10-17"
+}

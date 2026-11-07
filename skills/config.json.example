@@ -1,0 +1,121 @@
+{
+  "preferences": {
+    "language": "ko",
+    "tone": "{concise, plain statements}",
+    "rules": ["{sentences over tables}", "{no emoji}"]
+  },
+  "skills": {
+    "pro-commit": { "template": "{type}({scope}): {description}", "examples": ["{fix(auth): refresh token before expiry}"] },
+    "pro-report": { "sections": ["{Summary}", "{Changes}", "{Verification}"], "tone": "{report style}" },
+    "pro-review": { "rules": ["{security findings always first}"] }
+  },
+  "github": {
+    "default_assignee": "{GitHub_username}",
+    "global_pat": "{ghp_xxxxxxxxxxxxxxxxxxxx}",
+    "commit": {
+      "auto_approve": false
+    },
+    "issue": {
+      "auto_approve": false
+    },
+    "changelog_deploy": {
+      "auto_approve": false
+    },
+    "repos": [
+      {
+        "name": "{project name}",
+        "owner": "{GitHub_username_or_org}",
+        "repo": "{repository_name}",
+        "pat": null,
+        "default": true
+      },
+      {
+        "name": "{another project}",
+        "owner": "{GitHub_username_or_org}",
+        "repo": "{repository_name}",
+        "pat": "{ghp_separate_PAT_if_any}",
+        "default": false,
+        "preferences": { "language": "en" },
+        "skills": { "pro-commit": { "preset": "conventional" } },
+        "commit": {
+          "auto_approve": true
+        },
+        "issue": {
+          "auto_approve": true,
+          "assignee": "{GitHub username of a different assignee for this repo only}"
+        },
+        "changelog_deploy": {
+          "auto_approve": true,
+          "app_release": true
+        }
+      }
+    ]
+  },
+  "output": {
+    "_comment": "Root folder for outputs (md). Defaults to docs/projectops when omitted. A relative path is from the repository root; an absolute path also works.",
+    "root": "docs/projectops"
+  },
+  "skill-bug": {
+    "_comment": "extras watch hook: false stops automatic reports of suspected projectops bugs (default true).",
+    "auto_report": true
+  },
+  "synology-expose": {
+    "instances": [
+      {
+        "name": "{NAS display name}",
+        "ddns": "{your-nas.synology.me}",
+        "domains": [
+          "{example.com}"
+        ],
+        "email": "{your@email.com}",
+        "dns_provider": "{cloudflare|route53|gabia}",
+        "default": true
+      }
+    ]
+  },
+  "ui-design": {
+    "destination": "issue",
+    "auto_approve": false,
+    "devices": ["phone", "tablet", "desktop"],
+    "themes": ["light", "dark"],
+    "projects": [
+      { "match": "{owner/repo or absolute path}", "designer": "{designer GitHub ID}", "devices": ["phone"] }
+    ]
+  },
+  "launch": {
+    "login_policy": {
+      "trust_device": "always",
+      "keep_signed_in": "ask",
+      "skip_nags": "always"
+    },
+    "credentials": {
+      "my-server": {
+        "kind": "ssh",
+        "host": "{your-server.example.com}",
+        "port": 22,
+        "user": "{username}",
+        "password": "{password — for key login use \"key_path\": \"~/.ssh/id_ed25519\" instead}",
+        "scope": "test-only",
+        "use_when": "{when it may be used — exactly the scope the user allowed}",
+        "notes": "{naming rules to follow · port range · production services on the server}"
+      },
+      "my-registry": {
+        "kind": "dockerhub",
+        "username": "{username}",
+        "token": "{access token}",
+        "scope": "test-only",
+        "use_when": "{e.g. when registering it as a Secret while testing a deploy workflow}"
+      },
+      "my-google": {
+        "kind": "login",
+        "provider": "google",
+        "surface": "web",
+        "app": "{console.cloud.google.com}",
+        "account": "{me@example.com}",
+        "password": "{password}",
+        "use_when": "{checking the Google developer console}",
+        "login_policy": { "trust_device": "never" }
+      }
+    }
+  }
+}

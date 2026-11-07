@@ -1,0 +1,34 @@
+{
+  "id": "general-login-interstitial-policy",
+  "area": "general",
+  "title": "Login stops every time at trust-device · stay-signed-in · upsell screens",
+  "match": {
+    "codes": [],
+    "keywords": [
+      "trust this device",
+      "기기 신뢰",
+      "다시 묻지",
+      "로그인 상태 유지",
+      "stay signed in",
+      "passkey",
+      "패스키",
+      "trust device",
+      "keep me signed in",
+      "don't ask again"
+    ]
+  },
+  "symptom": "On every login the agent asks the user the same question at trust this device (don't ask again) · stay signed in · passkey or contact upsell screens. In remote-control the user cannot see the screen, so the flow breaks",
+  "cause": "No interstitial login screen policy is saved (every key is ask). Screens differ per provider, so there is no auto-click code; the agent identifies the screen type and presses according to the saved policy",
+  "fix": [
+    "launch_cli.py cred policy get --name <name>",
+    "launch_cli.py cred policy set --name <name> --key trust_device --value always",
+    "launch_cli.py cred policy set --key skip_nags --value always",
+    "If login_policy in the web type --cred · app type --cred result is always · never, press without asking. If ask, ask with a capture and save 'this account / all sites / just once' via cred policy set",
+    "Do not press screens you cannot identify — send a capture to the conversation and ask. Never disable 2FA or change account security settings"
+  ],
+  "refs": [
+    905
+  ],
+  "verified_at": "2026-10-18",
+  "applies_to": "web · android · ios"
+}

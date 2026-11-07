@@ -1,0 +1,446 @@
+"""이 컴퓨터에서 실제로 먹힌 조작 방식을 기억한다 (컴퓨터별 학습 메모).
+
+설계: docs/superpowers/specs/2026-10-10-agent-memory-design.md (#833)
+ - 읽기는 agent 호출에 맡기지 않는다 — launch_cli 가 명령 응답에 `memory` 로 싣는다
+ - 검증된 성공은 CLI 가 직접 기록한다 (auto_record). 실패·미설치는 자동 기록하지 않는다
+ - 쓰기 전에 모든 레포·이 컴퓨터 범위에서 비슷한 항목을 찾아 합친다 (learn_smart)
+
+  ~/.projectops/launch/<owner__repo>/knowledge.json   이 레포 + 이 컴퓨터
+  ~/.projectops/launch/_machine/knowledge.json        이 컴퓨터 전체
+
+**앱 화면·좌표는 여기 두지 않는다** — 그건 pro-agent-test 의 `note`(learned.json)가 맡는다.
+여기는 '도구·방식'(iOS 는 Maestro, Google 로그인은 --headed 등)만 다룬다.
+
+강화 = 카운터다. 성공을 알리면 ok+1, 실패하면 fail+1 이고, 꺼낼 때 (ok-fail) 순으로 준다.
+토큰을 아끼려고 꺼내는 양(개수·글자 수)에 상한을 둔다.
+"""
+from __future__ import annotations
+
+import datetime as dt
+import json
+import os
+import re
+from pathlib import Path
+
+from common import memory
+from common.access import find_secret_spans
+from common.state import base_dir, state_dir
+
+FILE = "knowledge.json"
+SCHEMA = 1
+AREAS = ("ios", "android", "web", "server", "desktop")
+SCOPES = ("repo", "machine")
+MAX_ENTRIES = 30        # 범위별 상한 — 넘으면 점수 낮은 것부터 지운다
+MAX_HOW = 200           # 한 항목 글자 수 상한 (recall 한 번이 수백 토큰에 머물게)
+MAX_DETAIL = 4000       # --detail 노트 글자 수 상한 — 경위·이유처럼 한 줄에 안 들어가는 긴 교훈 (#863)
+NOTES_DIR = "notes"     # 노트 자리: <기억 파일 폴더>/notes/<key>.md
+MAX_KEY = 60
+DEFAULT_LIMIT = 5
+STALE_DAYS = memory.STALE_DAYS
+
+# 기억이 뒤집을 수 없는 금지 방법. 호스트 마우스를 움직여 화면 좌표를 누르는 것(#640).
+# 저장도, 꺼내기도 막는다 — 손으로 고친 파일이나 옛 파일에서 들어와도 걸러야 한다.
+FORBIDDEN = re.compile(
+    r"(?i)\bcliclick\b|\bxdotool\b|CGEvent|System\s*Events.*(click|keystroke)|osascript.*click")
+
+
+def _machine_dir() -> Path:
+    return base_dir() / "launch" / "_machine"
+
+
+def store_path(scope: str, root: Path) -> Path:
+    if scope == "machine":
+        return _machine_dir() / FILE
+    return state_dir("launch", root) / FILE
+
+
+def _today(today: str | None) -> str:
+    return today or dt.date.today().isoformat()
+
+
+def load(path: Path) -> list[dict]:
+    """못 읽으면 빈 메모로 계속한다 — 기억이 깨졌다고 작업이 멈추면 안 된다."""
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return []
+    rows = data.get("entries") if isinstance(data, dict) else None
+    out = []
+    for r in rows or []:
+        if isinstance(r, dict) and r.get("key") and r.get("how") and r.get("area") in AREAS:
+            row = {"key": str(r["key"]), "area": r["area"], "how": str(r["how"]),
+                   "ok": int(r.get("ok") or 0), "fail": int(r.get("fail") or 0),
+                   "last_seen": str(r.get("last_seen") or "")}
+            if r.get("detail"):
+                row["detail"] = str(r["detail"])
+            # 기록 당시 버전 · 대체 표시 (#932)
+            for extra in ("plugin_version", "superseded_by", "superseded_reason"):
+                if r.get(extra):
+                    row[extra] = str(r[extra])
+            out.append(row)
+    return out
+
+
+def save(path: Path, entries: list[dict]) -> None:
+    """임시 파일에 쓰고 바꿔치기한다 — 여러 세션이 동시에 써도 반쯤 쓴 파일이 남지 않는다."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(f"{path.name}.{os.getpid()}.tmp")
+    tmp.write_text(json.dumps({"schema": SCHEMA, "entries": entries},
+                              ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    os.replace(tmp, path)
+
+
+def current_plugin_version() -> str | None:
+    """기록에 남길 스킬 버전. pro_launch 밖(테스트·다른 스킬)에서는 None."""
+    try:
+        from pro_launch.runtime.plugin_version import UNKNOWN_VERSION, plugin_version
+    except ImportError:
+        return None
+    version = plugin_version()
+    return None if version == UNKNOWN_VERSION else version
+
+
+def norm_key(key: str) -> str:
+    return re.sub(r"[^a-z0-9._-]+", "-", (key or "").strip().lower()).strip("-")[:MAX_KEY]
+
+
+def _score(e: dict) -> int:
+    return e["ok"] - e["fail"]
+
+
+def _stale(e: dict, today: str) -> bool:
+    return memory.stale(e["last_seen"], today, STALE_DAYS)
+
+
+def note_path(store: Path, key: str) -> Path:
+    """긴 교훈 노트 > <기억 파일 폴더>/notes/<key>.md"""
+    return store.parent / NOTES_DIR / f"{norm_key(key)}.md"
+
+
+def _secret_error(text: str) -> dict | None:
+    """비밀값이 있으면 거절 결과 (어느 구간이 걸렸는지 가려서 싣는다 — agent 가 고쳐 쓰게, #882)."""
+    spans = find_secret_spans(text)
+    if not spans:
+        return None
+    return {"error": "secret_detected",
+            "message": "Not saved: it contains what looks like a secret: "
+                       + ", ".join(f"{s['label']}({s['matched_span']})" for s in spans),
+            "matched_span": [s["matched_span"] for s in spans]}
+
+
+def learn(path: Path, area: str, key: str, how: str, result: str,
+          today: str | None = None, detail: str | None = None) -> dict:
+    """항목을 넣거나 갱신한다. 실패하면 {"error": 코드, "message": ...}.
+
+    how 가 상한을 넘으면 자르지 않고 too_long 으로 거절한다 — 조용히 자르면 결론이 문장 중간에서 사라진다 (#863).
+    """
+    if area not in AREAS:
+        return {"error": "bad_area", "message": f"area must be one of {'/'.join(AREAS)}"}
+    if result not in ("ok", "fail"):
+        return {"error": "bad_result", "message": "result must be ok or fail"}
+    k = norm_key(key)
+    how = " ".join((how or "").split())
+    if not k or not how:
+        return {"error": "empty", "message": "key and how are empty"}
+    if FORBIDDEN.search(how):
+        return {"error": "forbidden_method",
+                "message": "Methods that click coordinates with the host mouse are not remembered — use the project E2E"}
+    if len(how) > MAX_HOW:
+        return {"error": "too_long", "length": len(how), "limit": MAX_HOW,
+                "message": f"how is {len(how)} chars, over the {MAX_HOW}-char limit — keep only the one-line conclusion in how "
+                           "and pass the background·reason with --detail"}
+    detail = (detail or "").strip()
+    if len(detail) > MAX_DETAIL:
+        return {"error": "too_long", "length": len(detail), "limit": MAX_DETAIL,
+                "message": f"detail is {len(detail)} chars, over the {MAX_DETAIL}-char limit — keep only the essentials"}
+    secret = _secret_error(k + " " + how + " " + detail)
+    if secret:
+        return secret
+    now = _today(today)
+    entries = load(path)
+    cur = next((e for e in entries if e["key"] == k and e["area"] == area), None)
+    if cur is None:
+        cur = {"key": k, "area": area, "how": how, "ok": 0, "fail": 0, "last_seen": now}
+        entries.append(cur)
+    elif cur["how"] != how:
+        # 방법이 바뀌었으면 옛 방법의 성적을 물려받지 않는다
+        cur.update(how=how, ok=0, fail=0)
+        # 새 방법이면 옛 대체 표시는 무효
+        cur.pop("superseded_by", None)
+        cur.pop("superseded_reason", None)
+    cur[result] += 1
+    cur["last_seen"] = now
+    version = current_plugin_version()
+    if version:
+        cur["plugin_version"] = version
+    if detail:
+        # 노트는 덮어쓴다 — 같은 키의 최신 경위가 맞다
+        note = note_path(path, k)
+        note.parent.mkdir(parents=True, exist_ok=True)
+        note.write_text(f"# {k} ({area}, {now})\n\n{cur['how']}\n\n{detail}\n", encoding="utf-8")
+        cur["detail"] = note.name
+    if len(entries) > MAX_ENTRIES:
+        entries.sort(key=lambda e: (_score(e), e["last_seen"]), reverse=True)
+        del entries[MAX_ENTRIES:]
+    save(path, entries)
+    return {"entry": cur, "total": len(entries)}
+
+
+def forget(path: Path, key: str, area: str | None = None) -> int:
+    k = norm_key(key)
+    entries = load(path)
+    keep = [e for e in entries if not (e["key"] == k and (area is None or e["area"] == area))]
+    if len(keep) != len(entries):
+        save(path, keep)
+    return len(entries) - len(keep)
+
+
+def _matches(entry: dict, note: Path | None, match: str) -> bool:
+    """키·방법·노트 본문에 낱말이 들어 있는가 (대소문자 무시)."""
+    needle = match.lower()
+    if needle in (entry["key"] + " " + entry["how"]).lower():
+        return True
+    try:
+        return bool(note) and needle in note.read_text(encoding="utf-8").lower()
+    except OSError:
+        return False
+
+
+def recall(paths: dict[str, Path], area: str | None, limit: int = DEFAULT_LIMIT,
+           today: str | None = None, match: str | None = None) -> list[dict]:
+    """상위 항목만 돌려준다. 금지된 방법은 걸러내고, 믿기 어려운 것은 verify 로 표시한다.
+
+    match: 키·방법·노트에 이 낱말이 든 것만 (예: swipe). 노트가 있으면 detail_path 로 경로를 준다.
+    """
+    now = _today(today)
+    rows = []
+    for scope, p in paths.items():
+        for e in load(p):
+            if area and e["area"] != area:
+                continue
+            if FORBIDDEN.search(e["how"]):
+                continue
+            note = note_path(p, e["key"]) if e.get("detail") else None
+            if note is not None and not note.is_file():
+                note = None
+            if match and not _matches(e, note, match):
+                continue
+            e = {k: v for k, v in e.items() if k != "detail"}
+            if note is not None:
+                e["detail_path"] = str(note)
+            stale = _stale(e, now)
+            is_superseded = bool(e.get("superseded_by"))
+            # 대체된 항목은 맨 뒤 (-1), 오래된 것은 그 앞 (0)
+            rows.append({**e, "scope": scope,
+                         "verify": bool(e["fail"] and e["fail"] >= e["ok"]) or stale or is_superseded,
+                         "_rank": (-1 if is_superseded else 0 if stale else 1, _score(e), e["last_seen"])})
+    rows.sort(key=lambda r: r["_rank"], reverse=True)
+    for r in rows:
+        del r["_rank"]
+    return rows[:max(1, limit)]
+
+
+def area_summary(paths: dict[str, Path]) -> dict[str, dict]:
+    """영역별 기억 건수와 마지막 사용일 > {area: {count, last_seen}} (doctor 한 줄 요약, #863)."""
+    summary = {area: {"count": 0, "last_seen": None} for area in AREAS}
+    for store in paths.values():
+        for entry in load(store):
+            row = summary[entry["area"]]
+            row["count"] += 1
+            if entry["last_seen"] and (row["last_seen"] or "") < entry["last_seen"]:
+                row["last_seen"] = entry["last_seen"]
+    return summary
+
+
+# ── 중복 통합 · 범위 승격 · 노출 기록 (#833) ──────────────────────────────
+#
+# 같은 지식이 레포마다 키만 다르게 쌓였다(실측: ASC iframe 로그인 4곳). 레포에 상관없는
+# 지식은 이 컴퓨터 범위(_machine) 한 곳에 있어야 다른 레포에서도 바로 쓰인다.
+
+# 유사도·노출 상한 규칙은 pro-agent-test note 와 같아야 해서 common/memory.py 로 옮겼다 (#837).
+# 이 모듈의 공개 이름(SIMILAR·RELATED·overlap·similar …)은 그대로 둔다 — launch_cli·테스트가 쓴다.
+SIMILAR = memory.SIMILAR
+RELATED = memory.RELATED
+_GENERIC = memory._GENERIC
+HIDE_FAILS_OVER = memory.HIDE_FAILS_OVER
+_WORD = memory._WORD
+_words = memory.words
+
+
+def overlap(a: dict, b: dict) -> float:
+    return memory.overlap(a, b, field="how", group="area", key="key")
+
+
+def similar(a: dict, b: dict) -> bool:
+    """자동으로 합쳐도 될 만큼 확실히 같은 지식인가 (같은 키, 또는 고유어가 60% 이상 겹침)."""
+    return overlap(a, b) >= SIMILAR
+
+
+def related_entries(probe: dict, exclude: Path | None = None) -> list[dict]:
+    """애매하게 비슷한 기억 — 합칠지는 agent 가 판단한다 (Hermes 의 '추가 전에 먼저 찾아본다')."""
+    out = []
+    machine = _machine_dir() / FILE
+    for p in [machine, *all_repo_paths()]:
+        if exclude is not None and p.resolve() == exclude.resolve():
+            continue
+        for e in load(p):
+            sc = overlap(e, probe)
+            if RELATED <= sc < SIMILAR:
+                out.append({"key": e["key"], "how": e["how"], "score": round(sc, 2),
+                            "scope": "machine" if p == machine else p.parent.name})
+    return sorted(out, key=lambda r: -r["score"])[:3]
+
+
+def all_repo_paths() -> list[Path]:
+    """이 컴퓨터에 있는 모든 레포 범위 기억 파일."""
+    base = base_dir() / "launch"
+    if not base.is_dir():
+        return []
+    return sorted(p for p in base.glob(f"*/{FILE}") if p.parent.name != "_machine")
+
+
+def _merge(into: dict, other: dict) -> None:
+    """성적을 합치고 더 최근 것의 방법을 남긴다."""
+    into["ok"] += other["ok"]
+    into["fail"] += other["fail"]
+    if other["last_seen"] > into["last_seen"]:
+        into["how"], into["last_seen"] = other["how"], other["last_seen"]
+
+
+def learn_smart(repo_path: Path | None, area: str, key: str, how: str, result: str,
+                scope: str = "repo", today: str | None = None, detail: str | None = None) -> dict:
+    """learn 의 기본 경로. 비슷한 항목을 찾아 합치고, 여러 레포에 걸치면 이 컴퓨터로 올린다.
+
+    돌려주는 값: learn() 결과 + scope(실제로 쓴 범위) + promoted_from(합친 레포 파일 수).
+    """
+    machine = _machine_dir() / FILE
+    probe = {"area": area, "key": norm_key(key), "how": " ".join((how or "").split())}
+    # 이미 이 컴퓨터 범위에 있으면 거기를 강화한다
+    if any(similar(e, probe) for e in load(machine)):
+        hit = next(e for e in load(machine) if similar(e, probe))
+        r = learn(machine, area, hit["key"], how, result, today, detail)
+        return {**r, "scope": "machine", "promoted_from": 0}
+    if scope == "machine" or repo_path is None:
+        return {**learn(machine, area, key, how, result, today, detail), "scope": "machine", "promoted_from": 0}
+    # 다른 레포에 같은 지식이 있으면 이 컴퓨터 범위로 올린다
+    others = []
+    for p in all_repo_paths():
+        if p.resolve() == repo_path.resolve():
+            continue
+        hits = [e for e in load(p) if similar(e, probe)]
+        if hits:
+            others.append((p, hits))
+    if not others:
+        r = learn(repo_path, area, key, how, result, today, detail)
+        return {**r, "scope": "repo", "promoted_from": 0,
+                "related": related_entries(probe, exclude=repo_path) if "error" not in r else []}
+    r = learn(machine, area, key, how, result, today, detail)
+    if "error" in r:
+        return r
+    entries = load(machine)
+    cur = next(e for e in entries if e["key"] == r["entry"]["key"] and e["area"] == area)
+    moved = 0
+    for p in others_and_self(others, repo_path, probe):
+        keep = []
+        for e in load(p):
+            if similar(e, probe):
+                _merge(cur, e)
+                moved += 1
+            else:
+                keep.append(e)
+        save(p, keep)
+    save(machine, entries)
+    return {"entry": cur, "total": len(entries), "scope": "machine", "promoted_from": moved}
+
+
+def others_and_self(others, repo_path: Path, probe: dict) -> list[Path]:
+    paths = [p for p, _ in others]
+    if any(similar(e, probe) for e in load(repo_path)):
+        paths.append(repo_path)
+    return paths
+
+
+def auto_record(area: str, key: str, how: str, today: str | None = None) -> dict | None:
+    """CLI 가 확인한 성공을 이 컴퓨터 범위에 남긴다. 하루에 한 번만 올린다(성적 부풀리기 방지)."""
+    machine = _machine_dir() / FILE
+    now = _today(today)
+    k = norm_key(key)
+    cur = next((e for e in load(machine) if e["key"] == k and e["area"] == area), None)
+    if cur and cur["last_seen"] == now and cur["how"] == " ".join(how.split()):
+        return None
+    return learn(machine, area, key, how, "ok", today)
+
+
+def tidy(today: str | None = None, junk_buckets: tuple = ("scripts", "pro-launch")) -> dict:
+    """이미 흩어진 기억을 정리한다.
+
+    - 스킬 폴더 이름으로 잘못 생긴 버킷(scripts 등)의 항목 → 이 컴퓨터 범위
+    - 두 개 이상 레포에 걸친 비슷한 항목 → 이 컴퓨터 범위로 합치고 레포 사본 제거
+    지우지 않고 옮기기만 한다.
+    """
+    machine = _machine_dir() / FILE
+    m_entries = load(machine)
+    files = {p: load(p) for p in all_repo_paths()}
+    moved, merged = 0, 0
+
+    def put(e: dict):
+        nonlocal merged
+        hit = next((x for x in m_entries if similar(x, e)), None)
+        if hit:
+            _merge(hit, e)
+            merged += 1
+        else:
+            m_entries.append(dict(e))
+
+    for p, entries in files.items():
+        if p.parent.name in junk_buckets:
+            for e in entries:
+                put(e)
+                moved += 1
+            files[p] = []
+    # 여러 레포에 걸친 것
+    for p, entries in list(files.items()):
+        keep = []
+        for e in entries:
+            spread = sum(1 for q, es in files.items() if q != p and any(similar(e, x) for x in es))
+            in_machine = any(similar(e, x) for x in m_entries)
+            if spread or in_machine:
+                put(e)
+                moved += 1
+            else:
+                keep.append(e)
+        files[p] = keep
+    for p, entries in files.items():
+        save(p, entries)
+    if m_entries:
+        save(machine, m_entries)
+    return {"moved_to_machine": moved, "merged": merged, "machine_total": len(m_entries)}
+
+
+def surface(paths: dict[str, Path], area: str, seen_file: Path, limit: int = 3,
+            today: str | None = None, key_prefix: str | None = None) -> list[dict]:
+    """명령 응답에 실을 기억. 레포·영역마다 하루 한 번만 돌려준다 (토큰 절약).
+
+    key_prefix 가 있으면 그 접두사로 시작하는 key 만 싣고, 노출 기록도 접두사별로 센다
+    (서버 A 를 본 날 서버 B 의 기억이 가려지지 않게 — `server.<이름}.` 이 이 용도다).
+
+    fail 이 ok 보다 크게 앞서는 것은 싣지 않는다 — 틀린 기억을 매번 들이밀지 않는다.
+    """
+    now = _today(today)
+    seen_key = f"{area}:{key_prefix}" if key_prefix else area
+    # 확인과 동시에 오늘 실은 것으로 적는다 (실을 것이 없어도 하루 한 번만 계산)
+    if memory.seen_today(seen_file, seen_key, now):
+        return []
+    # 접두사 필터는 상한을 자르기 전에 건다 — 다른 서버 기억이 자리를 차지하면 안 된다
+    rows = [r for r in recall(paths, area, limit=1000, today=now)
+            if r["fail"] < r["ok"] + HIDE_FAILS_OVER and not r.get("superseded_by")
+            and (not key_prefix or r["key"].startswith(key_prefix))]
+    out, kept = [], []
+    for r in rows:
+        if any(similar(r, k) for k in kept):
+            continue
+        kept.append(r)
+        out.append({k: r[k] for k in ("key", "how", "scope", "ok", "fail", "verify", "detail_path") if k in r})
+        if len(out) >= limit:
+            break
+    return out

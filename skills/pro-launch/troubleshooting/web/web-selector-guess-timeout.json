@@ -1,0 +1,34 @@
+{
+  "id": "web-selector-guess-timeout",
+  "area": "web",
+  "title": "A guessed --selector misses — pick from candidates in the result, press by --ref",
+  "match": {
+    "codes": [
+      "selector_not_found",
+      "element_not_actionable",
+      "element_disabled"
+    ],
+    "keywords": [
+      "waiting for locator",
+      "Timeout"
+    ]
+  },
+  "symptom": "web click · type end with selector_not_found · element_not_actionable or web_action_failed ('Timeout … exceeded … waiting for locator'). The same failure repeats as selectors are swapped",
+  "cause": "The selector was guessed without reading the screen. No element matches, or it exists but is hidden or covered, so the target wait (--timeout; 4 s by default for actions, formerly 10 s) runs out. A disabled element ends at once with element_disabled",
+  "fix": [
+    "Pick the right one from candidates in the failure result and call again with --ref as next says (earlier entries are closer to the guessed selector)",
+    "launch_cli.py web click --ref <number> --expect-url <part of the new URL>",
+    "If there are no candidates, pick with web find --text <button text>",
+    "launch_cli.py web find --text <button text>",
+    "launch_cli.py web inspect --role input",
+    "For inputs, get a ref with web inspect --role input and enter it with web type --ref <number> --text <value>",
+    "If disabled is true in find · inspect · candidates, or element_disabled comes back, first meet the condition that enables the button (required fields · checkboxes)",
+    "If the screen is clearly slow to render, raise it, e.g. --timeout 10"
+  ],
+  "refs": [
+    825,
+    889,
+    888
+  ],
+  "verified_at": "2026-10-17"
+}

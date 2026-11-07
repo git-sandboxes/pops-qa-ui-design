@@ -1,0 +1,31 @@
+{
+  "id": "web-script-browser-memory-exceeded",
+  "area": "web",
+  "title": "Bulk scraping in web script bloats browser memory — use cookies + HTTP",
+  "match": {
+    "codes": [
+      "browser_memory_exceeded"
+    ],
+    "keywords": [
+      "스왑",
+      "swap",
+      "대량 수집",
+      "bulk scraping"
+    ]
+  },
+  "symptom": "While web script walks thousands of pages, browser_memory_exceeded appears, or browser_hung repeats before that and the computer slows down from swapping",
+  "cause": "Every page opened inside the browser piles up renderers and cache. Measured: one snippet grew Chrome to 275 GB with 40 GB of swap. The browser is a login tool, not a scraping engine",
+  "fix": [
+    "Use the browser only to log in, and have web script write context.cookies() to a file in the run folder (do not print it as the result — it would stay in the records)",
+    "Scrape over HTTP (urllib · requests) with those cookies in a Cookie header. If a list API exists, call the API instead of the screens",
+    "If it must run in the browser, split pages into batches of a few dozen, call web script several times, and close opened tabs with page.close()",
+    "The limit is web script --memory-limit-mb or PRO_LAUNCH_BROWSER_MEMORY_LIMIT_MB (default 32768). Going over kills the browser, so start it again with web open"
+  ],
+  "refs": [
+    973
+  ],
+  "verified_at": "2026-10-21",
+  "see_also": [
+    "web-orphan-headless-chrome"
+  ]
+}

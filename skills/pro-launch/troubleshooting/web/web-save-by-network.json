@@ -1,0 +1,23 @@
+{
+  "id": "web-save-by-network",
+  "area": "web",
+  "title": "Judge whether a save worked by the request response, not on-screen text",
+  "match": {
+    "codes": [],
+    "keywords": [
+      "POST",
+      "저장",
+      "save"
+    ]
+  },
+  "symptom": "The save button was pressed, but success is not visible on screen",
+  "cause": "Console screens have no success message, or it disappears",
+  "fix": [
+    "Check the POST/PUT response status with launch_cli.py web click --capture-requests",
+    "Judge by status 2xx vs 4xx (URL query strings are masked)"
+  ],
+  "refs": [
+    930
+  ],
+  "verified_at": "2026-10-18"
+}
